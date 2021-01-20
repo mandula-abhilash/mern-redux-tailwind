@@ -1,11 +1,16 @@
-function App() {
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import DashboardScreen from "./screens/DashboardScreen";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+
+const App = () => {
   return (
-    <div className="flex bg-blue-200 min-h-screen">
-      <h1 className="mx-auto my-auto text-2xl">
-        MERN + Tailwind Boiler plate code
-      </h1>
-    </div>
+    <Router>
+      <Route exact path="/dashboard" component={DashboardScreen} />
+      <Route exact path="/register" component={RegisterScreen} />
+      <Route exact path="/" component={LoginScreen} />
+    </Router>
   );
-}
+};
 
 export default App;
