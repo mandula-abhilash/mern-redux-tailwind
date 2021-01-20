@@ -49,25 +49,29 @@ There is a Heroku postbuild script, so if you push to Heroku, no need to build m
 ## Update the values in the below files:
 
 1) mern-redux-tailwind\frontend\public\manifest.json
-
+```
   "short_name": "Your application's short name",
   "name": "Your application's name",
+```
 
 2) mern-redux-tailwind\frontend\public\index.html
-
+```
    <meta
       name="description"
       content="Your application's description"
     />
    <title>Your application's title</title>
+```
 
 3) mern-redux-tailwind\package.json
-
+```
    "name": "Your application's name",
+```
 
 4) mern-redux-tailwind\package-lock.json
-
+```
    "name": "Your application's name",
+```
 
 ## License
 
