@@ -5,11 +5,13 @@ import RegisterScreen from "./screens/RegisterScreen";
 
 const App = () => {
   return (
-    <Router>
-      <Route exact path="/dashboard" component={DashboardScreen} />
-      <Route exact path="/register" component={RegisterScreen} />
-      <Route exact path="/" component={LoginScreen} />
-    </Router>
+    <>
+      <Router>
+        <Route exact path="/dashboard" component={DashboardScreen} />
+        <Route exact path="/register" component={RegisterScreen} />
+        <Route exact path="/" component={LoginScreen} />
+      </Router>
+    </>
   );
 };
 

@@ -13,7 +13,9 @@ const LoginScreen = ({ location, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  const redirect = location.search
+    ? location.search.split("=")[1]
+    : "/dashboard";
 
   useEffect(() => {
     if (userInfo) {
@@ -44,16 +46,15 @@ const LoginScreen = ({ location, history }) => {
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
           </div>
-          <div className="mt-6 w-full px-2 sm:px-6">
+          <div className="mt-12 w-full px-2 sm:px-6">
             <div className="flex flex-col mt-5">
               <label
                 htmlFor="email"
-                className="text-lg font-semibold leading-tight"
+                className="text-md font-semibold leading-tight"
               >
                 Email
               </label>
               <input
-                required
                 name="email"
                 id="email"
                 type="email"
@@ -65,12 +66,11 @@ const LoginScreen = ({ location, history }) => {
             <div className="flex flex-col mt-5">
               <label
                 htmlFor="password"
-                className="text-lg font-semibold fleading-tight"
+                className="text-md font-semibold fleading-tight"
               >
                 Password
               </label>
               <input
-                required
                 name="password"
                 id="password"
                 type="password"
