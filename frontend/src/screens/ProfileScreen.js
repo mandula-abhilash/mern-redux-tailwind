@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 
 import Header from "../components/Header";
+import { userUpdateProfileReducer } from "../reducers/userReducers";
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -19,32 +19,32 @@ const ProfileScreen = ({ location, history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  console.log("TEST" + JSON.stringify(userDetails));
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
       history.push("/");
     } else {
-      console.log("SUER INFO" + JSON.stringify(userInfo, null, 2));
-      if (!userInfo.name) {
+      if (!user.name) {
         dispatch(getUserDetails("profile"));
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, user, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      // dispatch(register(name, email, password));
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
-    // console.log(email + " : " + password);
   };
 
   return (
@@ -56,14 +56,14 @@ const ProfileScreen = ({ location, history }) => {
             onSubmit={submitHandler}
             className="w-full sm:w-4/6 md:w-3/6 lg:w-4/12 xl:w-3/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-2 sm:px-0"
           >
-            {/* <div className="px-2 flex flex-col items-center justify-center mt-8 sm:mt-0">
-            <h2 className="text-4xl leading-tight pt-8">The North</h2>
-          </div> */}
             <div className="pt-4 lg:pt-16 px-2 flex flex-col items-center justify-center uppercase">
               <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
                 User Profile
               </h3>
               {message && <Message variant="danger">{message}</Message>}
+              {success && (
+                <Message variant="info">Profile updated succesfully</Message>
+              )}
               {error && <Message variant="danger">{error}</Message>}
               {loading && <Loader />}
             </div>
@@ -113,6 +113,7 @@ const ProfileScreen = ({ location, history }) => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
                   className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                 />
               </div>
@@ -128,6 +129,7 @@ const ProfileScreen = ({ location, history }) => {
                   id="confirmPassword"
                   type="password"
                   value={confirmPassword}
+                  autoComplete="new-password"
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                 />
@@ -139,7 +141,7 @@ const ProfileScreen = ({ location, history }) => {
                 type="submit"
                 className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
               >
-                Register
+                Update
               </button>
             </div>
           </form>
