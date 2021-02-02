@@ -16,6 +16,7 @@ Create a .env file in the root and add the following
 NODE_ENV = development
 PORT = 5000
 MONGO_URI = your mongodb uri
+JWT_SECRET = your secret key
 ```
 
 ### Install Dependencies (frontend & backend)
@@ -48,13 +49,15 @@ There is a Heroku postbuild script, so if you push to Heroku, no need to build m
 
 ## Update the values in the below files:
 
-1) mern-redux-tailwind\frontend\public\manifest.json
+1. mern-redux-tailwind\frontend\public\manifest.json
+
 ```
   "short_name": "Your application's short name",
   "name": "Your application's name",
 ```
 
-2) mern-redux-tailwind\frontend\public\index.html
+2. mern-redux-tailwind\frontend\public\index.html
+
 ```
    <meta
       name="description"
@@ -63,12 +66,14 @@ There is a Heroku postbuild script, so if you push to Heroku, no need to build m
    <title>Your application's title</title>
 ```
 
-3) mern-redux-tailwind\package.json
+3. mern-redux-tailwind\package.json
+
 ```
    "name": "Your application's name",
 ```
 
-4) mern-redux-tailwind\package-lock.json
+4. mern-redux-tailwind\package-lock.json
+
 ```
    "name": "Your application's name",
 ```

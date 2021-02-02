@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <div className="m-2 p-2 md:flex items-center w-full justify-between mx-auto container">
       <div className="flex md:w-1/2 justify-between items-center">
-        <div className="rounded relative w-8/12 md:w-10/12 lg:w-1/2">
+        <div className="rounded relative ml-2 md:ml-4 lg:ml-8 w-8/12 md:w-10/12 lg:w-1/2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="text-gray-500 absolute ml-4 inset-0 m-auto icon icon-tabler icon-tabler-search border-r-1 border-gray-900"
