@@ -5,7 +5,7 @@ import Loader from "../components/Loader";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 
 import Header from "../components/Header";
-import { userUpdateProfileReducer } from "../reducers/userReducers";
+import { Link } from "react-router-dom";
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -51,15 +51,28 @@ const ProfileScreen = ({ location, history }) => {
     <>
       <Header />
       <section className="bg-white h-screen">
+        <div className="container mt-8 bg-indigo-100 p-6 mx-auto flex items-center justify-between rounded-tl-lg rounded-tr-lg shadow-lg">
+          <h4 className="text-lg mx-8 font-bold leading-tight text-gray-800 uppercase">
+            User Profile
+          </h4>
+          <div className="mt-6 md:mt-0">
+            <Link
+              to="/"
+              className="mx-8 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-5 py-2 text-sm"
+            >
+              Back
+            </Link>
+          </div>
+        </div>
         <div className="mx-auto flex justify-center md:items-center relative">
           <form
             onSubmit={submitHandler}
             className="w-full sm:w-4/6 md:w-3/6 lg:w-4/12 xl:w-3/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-2 sm:px-0"
           >
             <div className="pt-4 lg:pt-16 px-2 flex flex-col items-center justify-center uppercase">
-              <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
+              {/* <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
                 User Profile
-              </h3>
+              </h3> */}
               {message && <Message variant="danger">{message}</Message>}
               {success && (
                 <Message variant="info">Profile updated succesfully</Message>

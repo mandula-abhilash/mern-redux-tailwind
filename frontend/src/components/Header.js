@@ -1,12 +1,24 @@
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import initials from "initialism";
 import { logout } from "../actions/userActions";
 
-const Header = () => {
+const Header = ({ history }) => {
+  const [nameInitials, setNameInitials] = useState("");
+
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+    } else {
+      const { name } = userInfo;
+      setNameInitials(initials(name, 2));
+    }
+  }, [history, userInfo]);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -14,8 +26,14 @@ const Header = () => {
 
   return (
     <div className="m-2 p-2 md:flex items-center w-full justify-between mx-auto container">
-      <div className="flex md:w-1/2 justify-between items-center">
-        <div className="rounded relative ml-2 md:ml-4 lg:ml-8 w-8/12 md:w-10/12 lg:w-1/2">
+      <div className="flex justify-between md:w-1/2 items-center">
+        <Link
+          to="/"
+          className="text-base text-gray-800 font-bold tracking-normal leading-tight p-2 ml-3 lg:block uppercase"
+        >
+          Brand Name
+        </Link>
+        {/* <div className="rounded relative ml-2 md:ml-4 lg:ml-8 w-6/12 md:w-10/12 lg:w-1/2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="text-gray-500 absolute ml-4 inset-0 m-auto icon icon-tabler icon-tabler-search border-r-1 border-gray-900"
@@ -37,17 +55,20 @@ const Header = () => {
             type="text"
             placeholder="Search"
           />
-        </div>
+        </div> */}
         <div className="flex items-center md:hidden mr-4">
           <Link to="/profile">
-            <img
+            {/* <img
               className="h-8 w-8 md:h-10 md:w-10"
               src="https://cdn.tuk.dev/assets/components/todos/profile.png"
               alt="profile"
               srcSet=""
-            />
+            /> */}
+            <p className="h-8 w-8 rounded-full bg-red-200 border-1 border-red-300 text-sm text-center font-bold items-center p-1 tracking-wide shadow-lg">
+              {nameInitials}
+            </p>
           </Link>
-          <div className="ml-2 md:ml-0 cursor-pointer" onClick={logoutHandler}>
+          <div className="ml-4 md:ml-0 cursor-pointer" onClick={logoutHandler}>
             <svg
               className="h-6 lg:h-8 w-6 lg:w-8 text-blue-800"
               xmlns="http://www.w3.org/2000/svg"
@@ -97,12 +118,15 @@ const Header = () => {
       </div> */}
         <div className="mr-2 lg:mr-6 hidden md:flex items-center">
           <Link to="/profile">
-            <img
+            {/* <img
               className="h-8 w-8 md:h-10 md:w-10"
               src="https://cdn.tuk.dev/assets/components/todos/profile.png"
               alt="profile"
               srcSet=""
-            />
+            /> */}
+            <p className="h-10 w-10 rounded-full bg-red-200 border-1 border-red-300 font-bold text-center items-center p-2 tracking-wide shadow-lg">
+              {nameInitials}
+            </p>
           </Link>
           <div className="ml-4 lg:ml-6 cursor-pointer" onClick={logoutHandler}>
             <svg
