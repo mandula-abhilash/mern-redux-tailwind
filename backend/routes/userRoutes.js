@@ -9,12 +9,22 @@ import {
   getUserById,
   updateUser,
 } from "../controllers/userController.js";
+
+import { runValidation } from "../validators/index.js";
+import {
+  userSignInValidator,
+  userSignUpValidator,
+} from "../validators/auth.js";
+
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").post(registerUser).get(protect, admin, getUsers);
-router.post("/login", authUser);
+router
+  .route("/")
+  .post(userSignUpValidator, runValidation, registerUser)
+  .get(protect, admin, getUsers);
+router.route("/login").post(userSignInValidator, runValidation, authUser);
 router
   .route("/profile")
   .get(protect, getUserProfile)

@@ -67,7 +67,7 @@ const RegisterScreen = ({ location, history }) => {
                 id="name"
                 type="text"
                 value={name}
-                autocomplete="off"
+                autoComplete="off"
                 className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                 onChange={(e) => setName(e.target.value)}
               />
@@ -84,7 +84,7 @@ const RegisterScreen = ({ location, history }) => {
                 id="email"
                 type="email"
                 value={email}
-                autocomplete="off"
+                autoComplete="off"
                 className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                 onChange={(e) => setEmail(e.target.value)}
               />

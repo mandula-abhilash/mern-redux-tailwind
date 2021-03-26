@@ -8,7 +8,8 @@ const DashboardScreen = ({ history }) => {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!userInfo) {
+    if (userInfo) {
+    } else {
       history.push("/");
     }
   }, [history, userInfo]);
@@ -16,7 +17,7 @@ const DashboardScreen = ({ history }) => {
   return (
     <>
       <Header />
-      <div className="flex mx-auto h-screen bg-indigo-100 justify-center items-center">
+      <div className="flex mx-auto min-h-screen bg-indigo-100 justify-center items-center">
         Dashboard Screen
       </div>
     </>
