@@ -30,11 +30,16 @@ const RegisterScreen = ({ location, history }) => {
     }
   }, [history, userInfo, userLoginInfo, redirect]);
 
+  useEffect(() => {
+    console.log("Re redering");
+  }, [error, message]);
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
+      setMessage(null);
       dispatch(register(name, email, password));
     }
   };

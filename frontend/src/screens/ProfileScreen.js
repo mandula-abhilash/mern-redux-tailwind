@@ -29,7 +29,6 @@ const ProfileScreen = ({ location, history }) => {
     if (!userInfo) {
       history.push("/");
     } else {
-      console.log("USERRRR : " + JSON.stringify(user));
       if (!user.name) {
         dispatch(getUserDetails("profile"));
       } else {
@@ -54,7 +53,7 @@ const ProfileScreen = ({ location, history }) => {
     <>
       <Header />
       <section className="bg-white flex-grow">
-        <div className="container w-11/12 md:w-10/12 mx-auto my-16 h-auto rounded shadow">
+        <div className="container w-11/12 md:w-10/12 mx-auto my-16 h-auto rounded shadow-2xl">
           <div className="mt-8 p-6 bg-gray-100 mx-auto flex items-center justify-between rounded-tl-lg rounded-tr-lg">
             <h4 className="text-sm md:text-lg mx-2 md:mx-8 font-bold leading-tight text-gray-800 uppercase">
               Edit Profile
@@ -69,7 +68,7 @@ const ProfileScreen = ({ location, history }) => {
             </div>
           </div>
 
-          <div className="mx-auto flex bg-white justify-center md:items-center relative">
+          <div className="mx-auto flex bg-white justify-center md:items-center relative rounded-bl-lg rounded-br-lg">
             <form
               onSubmit={submitHandler}
               className="w-full sm:w-4/6 md:w-4/6 lg:w-5/12 xl:4/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-2 sm:px-0"
