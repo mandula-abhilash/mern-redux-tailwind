@@ -15,17 +15,20 @@ const RegisterScreen = ({ location, history }) => {
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo } = userRegister;
+  let { loading, error, userInfo } = userRegister;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const userLoginInfo = userLogin.userInfo;
 
   const redirect = location.search
     ? location.search.split("=")[1]
     : "/dashboard";
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo || userLoginInfo) {
       history.push(redirect);
     }
-  }, [history, userInfo, redirect]);
+  }, [history, userInfo, userLoginInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -37,7 +40,7 @@ const RegisterScreen = ({ location, history }) => {
   };
 
   return (
-    <section className="bg-white h-screen">
+    <section className="bg-white flex-grow">
       <div className="mx-auto flex justify-center md:items-center relative">
         <form
           onSubmit={submitHandler}
@@ -48,7 +51,7 @@ const RegisterScreen = ({ location, history }) => {
           </div> */}
           <div className="pt-16 px-2 flex flex-col items-center justify-center uppercase">
             <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
-              Register
+              Create New Account
             </h3>
             {message && <Message variant="danger">{message}</Message>}
             {error && <Message variant="danger">{error}</Message>}

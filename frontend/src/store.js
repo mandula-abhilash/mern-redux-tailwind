@@ -22,10 +22,13 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
+console.log("After From Storage : " + JSON.stringify(userInfoFromStorage));
+
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
-console.log("State : " + JSON.stringify(initialState));
+
+console.log("After Init State : " + JSON.stringify(initialState));
 
 const middleware = [thunk];
 

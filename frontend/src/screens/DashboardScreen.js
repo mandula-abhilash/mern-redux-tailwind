@@ -15,12 +15,13 @@ const DashboardScreen = ({ history }) => {
   }, [history, userInfo]);
 
   return (
-    <>
+    <div className="flex-grow">
       <Header />
-      <div className="flex mx-auto min-h-screen bg-indigo-100 justify-center items-center">
+      <div className="flex mx-auto bg-indigo-100 justify-center items-center">
         Dashboard Screen
+        <div className="h-screen"></div>
       </div>
-    </>
+    </div>
   );
 };
 

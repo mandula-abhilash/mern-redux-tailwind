@@ -31,7 +31,7 @@ const LoginScreen = ({ location, history }) => {
   };
 
   return (
-    <section className="bg-white h-screen">
+    <section className="bg-white flex-grow">
       <div className="mx-auto flex justify-center md:items-center relative">
         <form
           onSubmit={submitHandler}
@@ -94,6 +94,7 @@ const LoginScreen = ({ location, history }) => {
               <Link
                 className="text-indigo-600 ml-3 font-semibold"
                 to={redirect ? `/register?redirect=${redirect}` : "/register"}
+                // to={"/register"}
               >
                 Register
               </Link>

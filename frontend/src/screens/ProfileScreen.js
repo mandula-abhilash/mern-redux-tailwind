@@ -29,6 +29,7 @@ const ProfileScreen = ({ location, history }) => {
     if (!userInfo) {
       history.push("/");
     } else {
+      console.log("USERRRR : " + JSON.stringify(user));
       if (!user.name) {
         dispatch(getUserDetails("profile"));
       } else {
@@ -42,6 +43,8 @@ const ProfileScreen = ({ location, history }) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
+    } else if (!password) {
+      setMessage("Please enter your password");
     } else {
       dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
@@ -50,114 +53,118 @@ const ProfileScreen = ({ location, history }) => {
   return (
     <>
       <Header />
-      <section className="bg-white h-screen">
-        <div className="container mt-8 bg-indigo-100 p-6 mx-auto flex items-center justify-between rounded-tl-lg rounded-tr-lg shadow-lg">
-          <h4 className="text-lg mx-8 font-bold leading-tight text-gray-800 uppercase">
-            User Profile
-          </h4>
-          <div className="mt-6 md:mt-0">
-            <Link
-              to="/"
-              className="mx-8 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-5 py-2 text-sm"
-            >
-              Back
-            </Link>
+      <section className="bg-white flex-grow">
+        <div className="container w-11/12 md:w-10/12 mx-auto my-16 h-auto rounded shadow">
+          <div className="mt-8 p-6 bg-gray-100 mx-auto flex items-center justify-between rounded-tl-lg rounded-tr-lg">
+            <h4 className="text-sm md:text-lg mx-2 md:mx-8 font-bold leading-tight text-gray-800 uppercase">
+              Edit Profile
+            </h4>
+            <div className="mt-0">
+              <Link
+                to="/"
+                className="mx-8 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-5 py-2 text-sm"
+              >
+                Back
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="mx-auto flex justify-center md:items-center relative">
-          <form
-            onSubmit={submitHandler}
-            className="w-full sm:w-4/6 md:w-3/6 lg:w-4/12 xl:w-3/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-2 sm:px-0"
-          >
-            <div className="pt-4 lg:pt-16 px-2 flex flex-col items-center justify-center uppercase">
-              {/* <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
+
+          <div className="mx-auto flex bg-white justify-center md:items-center relative">
+            <form
+              onSubmit={submitHandler}
+              className="w-full sm:w-4/6 md:w-4/6 lg:w-5/12 xl:4/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-2 sm:px-0"
+            >
+              <div className="pt-4 lg:pt-16 px-2 flex flex-col items-center justify-center uppercase">
+                {/* <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
                 User Profile
               </h3> */}
-              {message && <Message variant="danger">{message}</Message>}
-              {success && (
-                <Message variant="info">Profile updated succesfully</Message>
-              )}
-              {error && <Message variant="danger">{error}</Message>}
-              {loading && <Loader />}
-            </div>
-            <div className="mt-12 w-full px-2 sm:px-6">
-              <div className="flex flex-col mt-5">
-                <label
-                  htmlFor="name"
-                  className="text-md font-semibold leading-tight"
-                >
-                  Name
-                </label>
-                <input
-                  name="name"
-                  id="name"
-                  type="text"
-                  value={name}
-                  className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-                  onChange={(e) => setName(e.target.value)}
-                />
+                {message && <Message variant="danger">{message}</Message>}
+                {success && (
+                  <Message variant="info">Profile updated succesfully</Message>
+                )}
+                {error && <Message variant="danger">{error}</Message>}
+                {loading && <Loader />}
               </div>
-              <div className="flex flex-col mt-5">
-                <label
-                  htmlFor="email"
-                  className="text-md font-semibold leading-tight"
-                >
-                  Email
-                </label>
-                <input
-                  name="email"
-                  id="email"
-                  type="email"
-                  value={email}
-                  className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+              <div className="mt-12 w-full px-2 sm:px-6">
+                <div className="flex flex-col mt-5">
+                  <label
+                    htmlFor="name"
+                    className="text-md font-semibold leading-tight"
+                  >
+                    Name
+                  </label>
+                  <input
+                    name="name"
+                    id="name"
+                    type="text"
+                    value={name}
+                    className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col mt-5">
+                  <label
+                    htmlFor="email"
+                    className="text-md font-semibold leading-tight"
+                  >
+                    Email
+                  </label>
+                  <input
+                    name="email"
+                    id="email"
+                    type="email"
+                    disabled="disabled"
+                    value={email}
+                    className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow cursor-not-allowed"
+                    // onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col mt-5">
+                  <label
+                    htmlFor="password"
+                    className="text-md font-semibold fleading-tight"
+                  >
+                    Password
+                  </label>
+                  <input
+                    name="password"
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="new-password"
+                    className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
+                  />
+                </div>
+                <div className="flex flex-col mt-5">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="text-md font-semibold fleading-tight"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    autoComplete="new-password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
+                  />
+                </div>
               </div>
-              <div className="flex flex-col mt-5">
-                <label
-                  htmlFor="password"
-                  className="text-md font-semibold fleading-tight"
-                >
-                  Password
-                </label>
-                <input
-                  name="password"
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="new-password"
-                  className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-                />
-              </div>
-              <div className="flex flex-col mt-5">
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-md font-semibold fleading-tight"
-                >
-                  Confirm Password
-                </label>
-                <input
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  autoComplete="new-password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-                />
-              </div>
-            </div>
 
-            <div className="px-2 py-6 mb-16 sm:mb-56 md:mb-16 sm:px-6">
-              <button
-                type="submit"
-                className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
-              >
-                Update
-              </button>
-            </div>
-          </form>
+              <div className="px-2 py-6 mb-16 sm:mb-56 md:mb-16 sm:px-6">
+                <button
+                  type="submit"
+                  className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
     </>
