@@ -26,6 +26,7 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_REGISTER_RESET,
 } from "../constants/userConstants";
 
 export const login = (email, password) => async (dispatch) => {
@@ -62,7 +63,12 @@ export const logout = () => (dispatch) => {
   document.location.href = "/";
 };
 
-export const register = (name, email, password) => async (dispatch) => {
+export const registerReset = () => (dispatch) => {
+  dispatch({ type: USER_REGISTER_RESET });
+  document.location.href = "/";
+};
+
+export const register = (name, email, accessKey) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -76,22 +82,26 @@ export const register = (name, email, password) => async (dispatch) => {
 
     const { data } = await axios.post(
       "/api/users",
-      { name, email, password },
+      { name, email, accessKey },
       config
     );
 
+    console.log({ data });
     dispatch({
       type: USER_REGISTER_SUCCESS,
       payload: data,
     });
 
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    });
+    // dispatch({
+    //   type: USER_LOGIN_SUCCESS,
+    //   payload: data,
+    // });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    // localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+    console.log(error);
+    // console.log(error.response.data.message);
+    // console.log(error.message);
     dispatch({
       type: USER_REGISTER_FAIL,
       payload:

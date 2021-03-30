@@ -10,8 +10,8 @@ const sendEmailWithNodemailer = async (req, res, emailData) => {
     secure: false,
     requireTLS: true,
     auth: {
-      user: process.env.GMAIL_ID,
-      pass: process.env.GMAIL_PASSWORD,
+      user: process.env.EMAIL_FROM,
+      pass: process.env.EMAIL_PASSWORD,
     },
     tls: {
       ciphers: "SSLv3",
@@ -22,7 +22,7 @@ const sendEmailWithNodemailer = async (req, res, emailData) => {
     let info = await transporter.sendMail(emailData);
     console.log(`Message sent: ${info.response}`);
     return res.json({
-      message: `Email has been sent to your email. Follow the instruction to activate your account`,
+      message: `An email has been sent to ${emailData.to} with account activation link. Please follow the instructions provided in the email. \nYou will be redirected to home page now in 5 seconds.`,
     });
   } catch (error) {
     res.status(404);

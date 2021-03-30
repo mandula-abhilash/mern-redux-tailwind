@@ -1,6 +1,7 @@
 import express from "express";
 import {
   authUser,
+  accountActivation,
   registerUser,
   getUserProfile,
   updateUserProfile,
@@ -24,6 +25,7 @@ router
   .route("/")
   .post(userSignUpValidator, runValidation, registerUser)
   .get(protect, admin, getUsers);
+router.route("/account-activation").post(accountActivation);
 router.route("/login").post(userSignInValidator, runValidation, authUser);
 router
   .route("/profile")

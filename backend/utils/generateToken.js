@@ -6,4 +6,10 @@ const generateToken = (id) => {
   });
 };
 
-export default generateToken;
+const generateAccountActivationToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_ACCOUNT_ACTIVATION, {
+    expiresIn: "10m",
+  });
+};
+
+export { generateToken, generateAccountActivationToken };

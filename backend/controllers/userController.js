@@ -1,7 +1,12 @@
 import asyncHandler from "express-async-handler";
-import generateToken from "../utils/generateToken.js";
+import {
+  generateToken,
+  generateAccountActivationToken,
+} from "../utils/generateToken.js";
+import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import sendEmailWithNodemailer from "../helpers/email.js";
+import html from "../helpers/emailTemplate.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -27,29 +32,31 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  console.log(email);
-  const userExists = await User.findOne({ email });
-  if (userExists) {
+  const { name, email, accessKey } = req.body;
+
+  if (accessKey != process.env.ACCESS_KEY) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error(
+      "Access key is not valid. Please contact Admin to get access key"
+    );
   }
 
-  const id = { name, email, password };
+  const userExists = await User.findOne({ email });
 
-  const token = generateToken(id);
+  if (userExists) {
+    res.status(400);
+    throw new Error("User with email address already exists");
+  }
+
+  const id = { name, email };
+  const token = generateAccountActivationToken(id);
+  // console.log("TOKEN : " + token);
 
   const emailData = {
-    from: process.env.GMAIL_ID,
+    from: process.env.EMAIL_FROM,
     to: email,
-    subject: "ACCOUNT ACTIVATION LINK",
-    html: `
-              <h1>Please use the following link to activate your account</h1>
-              <p>http://localhost:3000/auth/activate/${token}</p>
-              <hr />
-              <p>This email may contain sensitive information</p>
-              <p>http://localhost:3000</p>
-          `,
+    subject: "Planning Applications: Email Verification Required",
+    html: html(name, token),
   };
 
   await sendEmailWithNodemailer(req, res, emailData);
@@ -74,6 +81,51 @@ const registerUser = asyncHandler(async (req, res) => {
   //   throw new Error("Invalid user data");
   // }
   //Code to uncomment for normal registration flow ends
+});
+
+// @desc    Verify account activation link
+// @route   POST /api/users/account-activation
+// @access  Public
+const accountActivation = asyncHandler(async (req, res) => {
+  const { token } = req.body;
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION);
+
+      console.log("DEE : " + JSON.stringify(decoded));
+      const { name, email, password } = decoded.id;
+
+      const userExists = await User.findOne({ email });
+
+      if (userExists) {
+        res.status(400);
+        throw new Error("User already exists");
+      }
+
+      const user = await User.create({
+        name,
+        email,
+        password,
+      });
+
+      if (user) {
+        res.status(201).json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          token: generateToken(user._id),
+        });
+      } else {
+        res.status(400);
+        throw new Error("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      res.status(401);
+      throw new Error("Your link has expired. Please register again" + error);
+    }
+  }
 });
 
 // @desc    Get user profile
@@ -181,6 +233,7 @@ const updateUser = asyncHandler(async (req, res) => {
 export {
   authUser,
   registerUser,
+  accountActivation,
   getUserProfile,
   updateUserProfile,
   getUsers,
