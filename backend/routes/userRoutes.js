@@ -13,6 +13,7 @@ import {
 
 import { runValidation } from "../validators/index.js";
 import {
+  userAccountActivationValidator,
   userSignInValidator,
   userSignUpValidator,
 } from "../validators/auth.js";
@@ -25,7 +26,9 @@ router
   .route("/")
   .post(userSignUpValidator, runValidation, registerUser)
   .get(protect, admin, getUsers);
-router.route("/account-activation").post(accountActivation);
+router
+  .route("/account-activation")
+  .post(userAccountActivationValidator, runValidation, accountActivation);
 router.route("/login").post(userSignInValidator, runValidation, authUser);
 router
   .route("/profile")

@@ -12,6 +12,12 @@ const userSignUpValidator = [
   //   .withMessage("Password must be at least 6 characters long"),
 ];
 
+const userAccountActivationValidator = [
+  check("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+];
+
 const userSignInValidator = [
   check("email").isEmail().withMessage("Please enter a valid email address"),
   check("password")
@@ -19,4 +25,8 @@ const userSignInValidator = [
     .withMessage("Password must be at least 6 characters long"),
 ];
 
-export { userSignUpValidator, userSignInValidator };
+export {
+  userSignUpValidator,
+  userSignInValidator,
+  userAccountActivationValidator,
+};

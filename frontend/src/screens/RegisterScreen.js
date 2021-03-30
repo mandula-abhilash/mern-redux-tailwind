@@ -130,7 +130,7 @@ const RegisterScreen = ({ location, history }) => {
                   onMouseEnter={() => setTooltipStatus(2)}
                   onMouseLeave={() => setTooltipStatus(0)}
                 >
-                  {tooltipStatus == 2 && (
+                  {tooltipStatus === 2 && (
                     <div
                       role="tooltip"
                       className="z-20 transition duration-150 ease-in-out bottom-0 mb-8 right-0 shadow-lg pt-4 pr-2 pl-3 pb-5 bg-indigo-700 text-gray-600 rounded-bl-md rounded-t-md w-56 md:w-60 absolute"

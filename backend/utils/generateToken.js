@@ -6,8 +6,8 @@ const generateToken = (id) => {
   });
 };
 
-const generateAccountActivationToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_ACCOUNT_ACTIVATION, {
+const generateAccountActivationToken = ({ name, email }) => {
+  return jwt.sign({ name, email }, process.env.JWT_ACCOUNT_ACTIVATION, {
     expiresIn: "10m",
   });
 };

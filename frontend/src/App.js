@@ -6,6 +6,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import UserListScreen from "./screens/UserListScreen";
 import TestScreen from "./screens/TestScreen";
 import Footer from "./components/Footer";
+import ActivateScreen from "./screens/ActivateScreen";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Router>
         <Route exact path="/admin/users" component={UserListScreen} />
         <Route exact path="/dashboard" component={DashboardScreen} />
+        <Route exact path="/auth/activate/:token" component={ActivateScreen} />
         <Route exact path="/register" component={RegisterScreen} />
         <Route exact path="/profile" component={ProfileScreen} />
         <Route exact path="/test" component={TestScreen} />

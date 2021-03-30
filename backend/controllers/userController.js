@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const id = { name, email };
-  const token = generateAccountActivationToken(id);
+  const token = generateAccountActivationToken({ name, email });
   // console.log("TOKEN : " + token);
 
   const emailData = {
@@ -87,14 +87,15 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/account-activation
 // @access  Public
 const accountActivation = asyncHandler(async (req, res) => {
-  const { token } = req.body;
-
+  const { token, password } = req.body;
+  console.log("Token" + token);
+  console.log("Pass" + password);
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION);
 
       console.log("DEE : " + JSON.stringify(decoded));
-      const { name, email, password } = decoded.id;
+      const { name, email } = decoded;
 
       const userExists = await User.findOne({ email });
 
@@ -123,7 +124,7 @@ const accountActivation = asyncHandler(async (req, res) => {
       }
     } catch (error) {
       res.status(401);
-      throw new Error("Your link has expired. Please register again" + error);
+      throw new Error(error.message);
     }
   }
 });
