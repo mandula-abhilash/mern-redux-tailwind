@@ -19,8 +19,8 @@ const App = () => {
         <Route exact path="/profile" component={ProfileScreen} />
         <Route exact path="/test" component={TestScreen} />
         <Route exact path="/" component={LoginScreen} />
+        <Footer />
       </Router>
-      <Footer />
     </div>
   );
 };

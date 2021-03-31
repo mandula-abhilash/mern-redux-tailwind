@@ -6,7 +6,7 @@ import { logout } from "../actions/userActions";
 
 const Header = ({ history }) => {
   const [nameInitials, setNameInitials] = useState("");
-
+  const [show, setshow] = useState(false);
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -29,9 +29,10 @@ const Header = ({ history }) => {
       <div className="flex justify-between md:w-1/2 items-center">
         <Link
           to="/"
-          className="text-base text-gray-800 font-bold tracking-normal leading-tight p-2 ml-3 lg:block uppercase"
+          className="text-base text-indigo-600 hover:text-indigo-800 font-bold tracking-normal leading-tight p-2 ml-3 lg:block uppercase"
         >
-          Brand Name
+          <span className="hidden md:block">Planning Applications</span>
+          <span className="md:hidden text-xs">Planning Apps</span>
         </Link>
         {/* <div className="rounded relative ml-2 md:ml-4 lg:ml-8 w-6/12 md:w-10/12 lg:w-1/2">
           <svg
@@ -57,96 +58,227 @@ const Header = ({ history }) => {
           />
         </div> */}
         <div className="flex items-center md:hidden mr-4">
-          <Link to="/profile">
-            {/* <img
-              className="h-8 w-8 md:h-10 md:w-10"
-              src="https://cdn.tuk.dev/assets/components/todos/profile.png"
-              alt="profile"
-              srcSet=""
-            /> */}
-            <p className="h-8 w-8 rounded-full bg-red-200 border-1 border-red-300 text-sm text-center font-bold items-center p-1 tracking-wide shadow-lg">
-              {nameInitials}
-            </p>
-          </Link>
-          <div className="ml-4 md:ml-0 cursor-pointer" onClick={logoutHandler}>
-            <svg
-              className="h-6 lg:h-8 w-6 lg:w-8 text-blue-800"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-            >
-              <path
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="1"
-                d="M32,52.72A20.43,20.43,0,0,1,17.87,17.55a1,1,0,0,1,1.42,0,1,1,0,0,1,0,1.41,18.42,18.42,0,1,0,25.48,0,1,1,0,0,1,0-1.41,1,1,0,0,1,1.42,0A20.43,20.43,0,0,1,32,52.72Z"
+          {/* Mobile Screens */}
+          <div
+            className="flex items-center lg:mb-0 mr-10 relative cursor-pointer"
+            onClick={() => setshow(!show)}
+          >
+            {show && (
+              <ul className="p-2 w-40 border-r bg-white absolute rounded z-40 right-0 shadow mt-14  top-0">
+                <li className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
+                  <div className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-user"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <circle cx={12} cy={7} r={4} />
+                      <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    </svg>
+                    <Link to="/profile">
+                      <span className="ml-2">My Profile</span>
+                    </Link>
+                  </div>
+                </li>
+                <li
+                  onClick={logoutHandler}
+                  className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-logout"
+                    width={20}
+                    height={20}
+                    viewBox="0 0 20 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                    <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+                  </svg>
+                  <span className="ml-2">Sign Out</span>
+                </li>
+              </ul>
+            )}
+            {/* <div className="w-8 h-8 bg-cover rounded mr-3">
+              <img
+                src="https://tuk-cdn.s3.amazonaws.com/assets/components/avatars/a_1.png"
+                className="rounded h-full w-full overflow-hidden shadow"
+                alt
               />
-              <path
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="1"
-                d="M32,34a1,1,0,0,1-1-1V12.28a1,1,0,0,1,2,0V33A1,1,0,0,1,32,34Z"
-              />
-            </svg>
+            </div> */}
+            <div className="flex items-center pl-3 h-8 w-16 bg-gray-100 rounded">
+              <p className="text-indigo-700 text-sm font-semibold">
+                {nameInitials}
+              </p>
+              <div
+                className="ml-2 mt-1 cursor-pointer text-indigo-800"
+                onClick={() => setshow(!show)}
+              >
+                {show ? (
+                  <svg
+                    id="upIcon1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-chevron-up"
+                    width={20}
+                    height={20}
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <polyline points="6 15 12 9 18 15" />
+                  </svg>
+                ) : (
+                  <svg
+                    id="downIcon1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-chevron-down"
+                    width={20}
+                    height={20}
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" />
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col-reverse mt-0 md:flex-row md:items-center">
-        {/* <div className="relative w-80 sm:w-72 md:w-80 lg:w-auto">
-        <select className="focus:outline-none border border-gray-400 rounded-lg appearance-none cursor-pointer text-base sm:text-sm py-3 pl-4 pr-12 text-gray-700">
-          <option>Notebook: UX Design brainstorming</option>
-          <option>Notebook: UX Design brainstorming</option>
-          <option>Notebook: UX Design brainstorming</option>
-        </select>
-        <div className="w-4 h-4 absolute m-auto inset-0 mr-4 pointer-events-none cursor-pointer">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-chevron-down"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z"></path>
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </div>
-      </div> */}
         <div className="mr-2 lg:mr-6 hidden md:flex items-center">
-          <Link to="/profile">
-            {/* <img
-              className="h-8 w-8 md:h-10 md:w-10"
-              src="https://cdn.tuk.dev/assets/components/todos/profile.png"
-              alt="profile"
-              srcSet=""
-            /> */}
-            <p className="h-10 w-10 rounded-full bg-red-200 border-1 border-red-300 font-bold text-center items-center p-2 tracking-wide shadow-lg">
-              {nameInitials}
-            </p>
-          </Link>
-          <div className="ml-4 lg:ml-6 cursor-pointer" onClick={logoutHandler}>
-            <svg
-              className="h-6 lg:h-8 w-6 lg:w-8 text-blue-800"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
+          <div className="px-6 flex flex-col items-start sm:items-center sm:flex-row flex-wrap">
+            {/* Code block starts */}
+            <div
+              className="flex items-center lg:mb-0 mr-10 relative cursor-pointer"
+              onClick={() => setshow(!show)}
             >
-              <path
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="1"
-                d="M32,52.72A20.43,20.43,0,0,1,17.87,17.55a1,1,0,0,1,1.42,0,1,1,0,0,1,0,1.41,18.42,18.42,0,1,0,25.48,0,1,1,0,0,1,0-1.41,1,1,0,0,1,1.42,0A20.43,20.43,0,0,1,32,52.72Z"
-              />
-              <path
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="1"
-                d="M32,34a1,1,0,0,1-1-1V12.28a1,1,0,0,1,2,0V33A1,1,0,0,1,32,34Z"
-              />
-            </svg>
+              {show && (
+                <ul className="p-2 w-40 border-r bg-white absolute rounded z-40 right-0 shadow mt-14  top-0">
+                  <li className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
+                    <div className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-user"
+                        width={20}
+                        height={20}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <circle cx={12} cy={7} r={4} />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                      </svg>
+                      <Link to="/profile">
+                        <span className="ml-2">My Profile</span>
+                      </Link>
+                    </div>
+                  </li>
+                  <li
+                    onClick={logoutHandler}
+                    className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal mt-2 py-2 hover:text-indigo-700 flex items-center focus:text-indigo-700 focus:outline-none"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-logout"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 20 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                      <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+                    </svg>
+                    <span className="ml-2">Sign Out</span>
+                  </li>
+                </ul>
+              )}
+              {/* <div className="w-8 h-8 bg-cover rounded mr-3">
+                <img
+                  src="https://tuk-cdn.s3.amazonaws.com/assets/components/avatars/a_1.png"
+                  className="rounded h-full w-full overflow-hidden shadow"
+                  alt
+                />
+              </div> */}
+              <div className="flex items-center">
+                <p className="text-indigo-800 text-base font-medium">
+                  {userInfo.name}
+                </p>
+                <div
+                  className="ml-2 mt-1 font-bold cursor-pointer text-indigo-800"
+                  onClick={() => setshow(!show)}
+                >
+                  {show ? (
+                    <svg
+                      id="upIcon1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-chevron-up"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <polyline points="6 15 12 9 18 15" />
+                    </svg>
+                  ) : (
+                    <svg
+                      id="downIcon1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-chevron-down"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Code block ends */}
           </div>
         </div>
       </div>
