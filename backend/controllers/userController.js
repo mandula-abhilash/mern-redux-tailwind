@@ -94,7 +94,6 @@ const accountActivation = asyncHandler(async (req, res) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION);
 
-      console.log("DEE : " + JSON.stringify(decoded));
       const { name, email } = decoded;
 
       const userExists = await User.findOne({ email });
@@ -124,7 +123,11 @@ const accountActivation = asyncHandler(async (req, res) => {
       }
     } catch (error) {
       res.status(401);
-      throw new Error(error.message);
+      if (error.message.includes("jwt expired")) {
+        throw new Error("Your link has expired. Please register again.");
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
 });

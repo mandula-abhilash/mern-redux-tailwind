@@ -35,6 +35,10 @@ const RegisterScreen = ({ location, history }) => {
   }, [history, userInfo, redirect]);
 
   useEffect(() => {
+    dispatch(registerReset());
+  }, [redirect]);
+
+  useEffect(() => {
     if (message) {
       setName("");
       setEmail("");
@@ -42,6 +46,7 @@ const RegisterScreen = ({ location, history }) => {
 
       const resetMessageTimer = setTimeout(() => {
         dispatch(registerReset());
+        history.push("/");
       }, 10000);
 
       return () => clearTimeout(resetMessageTimer);

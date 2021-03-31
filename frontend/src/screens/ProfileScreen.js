@@ -30,13 +30,18 @@ const ProfileScreen = ({ location, history }) => {
       history.push("/");
     } else {
       if (!user.name) {
+        console.log("Use Effect 1");
         dispatch(getUserDetails("profile"));
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo, user, success]);
+  }, [userInfo, success, user]);
+
+  useEffect(() => {
+    console.log("Use Effect 2");
+  }, [getUserDetails]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -46,6 +51,9 @@ const ProfileScreen = ({ location, history }) => {
       setMessage("Please enter your password");
     } else {
       dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      setPassword("");
+      setConfirmPassword("");
+      dispatch(getUserDetails("profile"));
     }
   };
 

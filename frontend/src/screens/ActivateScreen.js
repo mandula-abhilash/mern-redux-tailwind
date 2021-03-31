@@ -39,7 +39,17 @@ const ActivateScreen = ({ location, history, match }) => {
         setEmail(email);
       }
     }
-  }, [history, userInfo, userLoginInfo, redirect]);
+  }, [history, formErrors, userInfo, userLoginInfo, redirect]);
+
+  useEffect(() => {
+    if (message) {
+      setPassword("");
+      setConfirmPassword("");
+    } else {
+      setPassword(password);
+      setConfirmPassword(confirmPassword);
+    }
+  }, [name, email, password, confirmPassword, message, error, userRegister]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -65,7 +75,7 @@ const ActivateScreen = ({ location, history, match }) => {
             <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight uppercase">
               Activate Your Account
             </h3>
-            {/* {formErrors && <Message variant="danger">{formErrors}</Message>} */}
+            {formErrors && <Message variant="danger">{formErrors}</Message>}
             {message && <Message variant="info">{message.message}</Message>}
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
@@ -149,15 +159,15 @@ const ActivateScreen = ({ location, history, match }) => {
               type="submit"
               className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
             >
-              Register
+              Activate
             </button>
             <p className="mt-16 text-xs text-center">
-              Already Have An Account?
+              Not registered yet?
               <Link
                 className="text-indigo-600 ml-3 font-semibold"
-                to={redirect ? `/?redirect=${redirect}` : "/"}
+                to={redirect ? `/register?redirect=${redirect}` : "/register"}
               >
-                Login
+                Register
               </Link>
             </p>
           </div>
