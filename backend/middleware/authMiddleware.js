@@ -16,13 +16,13 @@ const protect = asyncHandler(async (req, res, next) => {
     } catch (error) {
       console.error(error);
       res.status(401);
-      throw new Error("Not authorized, token failed");
+      throw new Error("Failure: You are not authorized to view this page.");
     }
   }
 
   if (!token) {
     res.status(401);
-    throw new Error("Not authorized, no token");
+    throw new Error("Forbidden: You are not authorized to view this page.");
   }
 });
 
@@ -31,7 +31,7 @@ const admin = (req, res, next) => {
     next();
   } else {
     res.status(401);
-    throw new Error("Not authorized as an admin");
+    throw new Error("Forbidden: You are not an admin to view this page.");
   }
 };
 

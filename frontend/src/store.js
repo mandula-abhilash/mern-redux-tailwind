@@ -10,25 +10,24 @@ import {
   userListReducer,
 } from "./reducers/userReducers";
 
+import { councilListReducer } from "./reducers/councilReducers";
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userList: userListReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  councilList: councilListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
-console.log("After From Storage : " + JSON.stringify(userInfoFromStorage));
-
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
-
-console.log("After Init State : " + JSON.stringify(initialState));
 
 const middleware = [thunk];
 

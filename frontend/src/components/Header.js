@@ -32,7 +32,7 @@ const Header = ({ history }) => {
           className="text-base text-indigo-600 hover:text-indigo-800 font-bold tracking-normal leading-tight p-2 ml-3 lg:block uppercase"
         >
           <span className="hidden md:block">Planning Applications</span>
-          <span className="md:hidden text-xs">Planning Apps</span>
+          <span className="md:hidden text-sm">Planning Apps</span>
         </Link>
         {/* <div className="rounded relative ml-2 md:ml-4 lg:ml-8 w-6/12 md:w-10/12 lg:w-1/2">
           <svg
@@ -60,7 +60,7 @@ const Header = ({ history }) => {
         <div className="flex items-center md:hidden mr-4">
           {/* Mobile Screens */}
           <div
-            className="flex items-center lg:mb-0 mr-10 relative cursor-pointer"
+            className="flex items-center lg:mb-0 mr-2 relative cursor-pointer"
             onClick={() => setshow(!show)}
           >
             {show && (
@@ -98,7 +98,7 @@ const Header = ({ history }) => {
                     width={20}
                     height={20}
                     viewBox="0 0 20 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     fill="none"
                     strokeLinecap="round"
@@ -119,8 +119,8 @@ const Header = ({ history }) => {
                 alt
               />
             </div> */}
-            <div className="flex items-center pl-3 h-8 w-16 bg-gray-100 rounded">
-              <p className="text-indigo-700 text-sm font-semibold">
+            <div className="flex items-center border-1 h-9 w-full bg-gray-100 px-3 rounded-md shadow-md">
+              <p className="text-indigo-700 text-sm font-bold tracking-widest">
                 {nameInitials}
               </p>
               <div
@@ -173,7 +173,7 @@ const Header = ({ history }) => {
           <div className="px-6 flex flex-col items-start sm:items-center sm:flex-row flex-wrap">
             {/* Code block starts */}
             <div
-              className="flex items-center lg:mb-0 mr-10 relative cursor-pointer"
+              className="flex items-center lg:mb-0 mr-2 relative cursor-pointer"
               onClick={() => setshow(!show)}
             >
               {show && (
@@ -211,7 +211,7 @@ const Header = ({ history }) => {
                       width={20}
                       height={20}
                       viewBox="0 0 20 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
                       fill="none"
                       strokeLinecap="round"
@@ -232,8 +232,8 @@ const Header = ({ history }) => {
                   alt
                 />
               </div> */}
-              <div className="flex items-center">
-                <p className="text-indigo-800 text-base font-medium">
+              <div className="flex items-center border-1 h-12 w-full bg-gray-100 px-4 rounded shadow-md">
+                <p className="text-indigo-800 text-base font-medium tracking-tighter">
                   {userInfo.name}
                 </p>
                 <div
