@@ -1,6 +1,10 @@
 import axios from "axios";
 
 import {
+  COUNCIL_ADD_FAIL,
+  COUNCIL_ADD_REQUEST,
+  COUNCIL_ADD_RESET,
+  COUNCIL_ADD_SUCCESS,
   COUNCIL_LIST_FAIL,
   COUNCIL_LIST_REQUEST,
   COUNCIL_LIST_SUCCESS,
@@ -42,4 +46,44 @@ export const getCouncils = () => async (dispatch, getState) => {
       payload: message,
     });
   }
+};
+
+export const addCouncil = (values) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: COUNCIL_ADD_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(`/api/councils/add`, { values }, config);
+
+    console.log("Add Success : " + JSON.stringify(data));
+    dispatch({
+      type: COUNCIL_ADD_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+      type: COUNCIL_ADD_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const addReset = () => (dispatch) => {
+  dispatch({ type: COUNCIL_ADD_RESET });
 };

@@ -2,16 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getCouncils } from "../actions/councilActions";
-import { useHistory } from "react-router-dom";
 import Loader from "./Loader";
 import Message from "./Message";
+import { addCouncil, addReset } from "../actions/councilActions";
 
 const AddCouncil = ({ history }) => {
-  // const [authorityName, setAuthorityName] = useState("");
-  // const [authorityURL, setAuthorityURL] = useState("");
-  // const [authorityType, setAuthorityType] = useState("");
-  // const [dateTypes, setDateTypes] = useState("");
-
   const [formValues, setFormValues] = useState(null);
 
   const initialValues = {
@@ -26,31 +21,34 @@ const AddCouncil = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const councilList = useSelector((state) => state.councilList);
-  let { loading, error, councils } = councilList;
-
-  let message = "";
+  const councilAdd = useSelector((state) => state.councilAdd);
+  let { loading, error, message } = councilAdd;
 
   useEffect(() => {
     if (userInfo) {
-      dispatch(getCouncils());
+      // dispatch(getCouncils());
     } else {
       history.push("/");
     }
   }, [history, dispatch, userInfo]);
 
-  // useEffect(() => {
-  //   dispatch(getCouncils());
-  // }, [dispatch]);
+  useEffect(() => {
+    if (message) {
+      const resetMessageTimer = setTimeout(() => {
+        dispatch(addReset());
+        document.location.href = "/";
+      }, 2000);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // dispatch(register(name, email, accessKey));
-  };
+      return () => clearTimeout(resetMessageTimer);
+    }
+  }, [message]);
 
   const onSubmit = (values, onSubmitProps) => {
-    onSubmitProps.setSubmitting(false);
-    onSubmitProps.resetForm();
+    // onSubmitProps.setSubmitting(false);
+    // onSubmitProps.resetForm();
+    console.log("V" + JSON.stringify(values, null, 2));
+    // console.log("FV" + formValues);
+    dispatch(addCouncil(values));
   };
 
   return (
@@ -80,7 +78,7 @@ const AddCouncil = ({ history }) => {
                     enableReinitialize
                   >
                     {(formik) => {
-                      console.log("Formik props", formik);
+                      // console.log("Formik props", formik);
                       return (
                         <Form className="w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-600 mb-12 sm:mb-0 my-10 sm:my-6 px-6">
                           <div className="pt-16 px-2 flex flex-col items-center justify-center">
