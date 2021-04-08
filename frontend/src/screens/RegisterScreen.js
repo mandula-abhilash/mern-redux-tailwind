@@ -10,9 +10,6 @@ const RegisterScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
   const [accessKey, setAccessKey] = useState("");
   const [tooltipStatus, setTooltipStatus] = useState(0);
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-  // const [formErrors, setFormErrors] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -59,13 +56,6 @@ const RegisterScreen = ({ location, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // if (password !== confirmPassword) {
-    //   setFormErrors("Passwords do not match");
-    // } else {
-    //   setFormErrors(null);
-    //   dispatch(register(name, email, password, accessKey));
-    // }
-
     dispatch(register(name, email, accessKey));
   };
 
@@ -76,14 +66,10 @@ const RegisterScreen = ({ location, history }) => {
           onSubmit={submitHandler}
           className="w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-600 mb-12 sm:mb-0 my-10 sm:my-6 px-6"
         >
-          {/* <div className="px-2 flex flex-col items-center justify-center mt-8 sm:mt-0">
-            <h2 className="text-4xl leading-tight pt-8">The North</h2>
-          </div> */}
           <div className="pt-16 px-2 flex flex-col items-center justify-center">
             <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight uppercase">
               Create New Account
             </h3>
-            {/* {formErrors && <Message variant="danger">{formErrors}</Message>} */}
             {message && <Message variant="info">{message.message}</Message>}
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
@@ -201,7 +187,6 @@ const RegisterScreen = ({ location, history }) => {
                     </svg>
                   </div>
                 </div>
-                {/*Code Block for indigo tooltip ends*/}
               </label>
               <input
                 name="accessKey"
@@ -213,40 +198,6 @@ const RegisterScreen = ({ location, history }) => {
                 className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
               />
             </div>
-            {/* <div className="flex flex-col mt-8">
-              <label
-                htmlFor="password"
-                className="text-xs font-semibold leading-tight"
-              >
-                Password
-              </label>
-              <input
-                name="password"
-                id="password"
-                type="password"
-                value={password}
-                autoComplete="new-password"
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-              />
-            </div>
-            <div className="flex flex-col mt-8">
-              <label
-                htmlFor="confirmPassword"
-                className="text-xs font-semibold leading-tight"
-              >
-                Confirm Password
-              </label>
-              <input
-                name="confirmPassword"
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                autoComplete="new-password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-              />
-            </div> */}
           </div>
 
           <div className="px-2 py-6 mb-16 sm:mb-56 md:mb-16 sm:px-6 mx-auto w-full md:w-4/6 lg:w-8/12 xl:w-6/12">

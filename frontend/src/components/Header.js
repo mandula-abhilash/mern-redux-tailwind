@@ -64,7 +64,7 @@ const Header = ({ history }) => {
             onClick={() => setshow(!show)}
           >
             {show && (
-              <ul className="p-2 w-40 border-r bg-white absolute rounded z-40 right-0 shadow mt-14  top-0">
+              <ul className="p-2 w-40 border-r bg-gray-100 absolute rounded z-40 right-0 shadow-xl mt-10 top-0">
                 <li className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
                   <div className="flex items-center">
                     <svg
@@ -177,7 +177,7 @@ const Header = ({ history }) => {
               onClick={() => setshow(!show)}
             >
               {show && (
-                <ul className="p-2 w-40 border-r bg-white absolute rounded z-40 right-0 shadow mt-14  top-0">
+                <ul className="p-2 w-full border-r bg-gray-100 absolute rounded z-40 right-0 shadow-xl mt-16 top-0">
                   <li className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
                     <div className="flex items-center">
                       <svg

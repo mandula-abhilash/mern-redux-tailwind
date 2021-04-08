@@ -13,6 +13,7 @@ import {
 import {
   councilAddReducer,
   councilListReducer,
+  councilDeleteReducer,
 } from "./reducers/councilReducers";
 
 const reducer = combineReducers({
@@ -24,6 +25,7 @@ const reducer = combineReducers({
 
   councilList: councilListReducer,
   councilAdd: councilAddReducer,
+  councilDelete: councilDeleteReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

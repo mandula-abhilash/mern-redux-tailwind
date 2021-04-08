@@ -1,11 +1,14 @@
 import {
+  COUNCIL_LIST_FAIL,
+  COUNCIL_LIST_REQUEST,
+  COUNCIL_LIST_SUCCESS,
   COUNCIL_ADD_FAIL,
   COUNCIL_ADD_REQUEST,
   COUNCIL_ADD_RESET,
   COUNCIL_ADD_SUCCESS,
-  COUNCIL_LIST_FAIL,
-  COUNCIL_LIST_REQUEST,
-  COUNCIL_LIST_SUCCESS,
+  COUNCIL_DELETE_FAIL,
+  COUNCIL_DELETE_REQUEST,
+  COUNCIL_DELETE_SUCCESS,
 } from "../constants/councilConstants";
 
 //council list
@@ -28,11 +31,25 @@ export const councilAddReducer = (state = {}, action) => {
     case COUNCIL_ADD_REQUEST:
       return { loading: true, error: null };
     case COUNCIL_ADD_SUCCESS:
-      return { loading: false, message: action.payload };
+      return { loading: false, success: true };
     case COUNCIL_ADD_FAIL:
       return { loading: false, error: action.payload };
     case COUNCIL_ADD_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+//council delete
+export const councilDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case COUNCIL_DELETE_REQUEST:
+      return { loading: true };
+    case COUNCIL_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case COUNCIL_DELETE_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
