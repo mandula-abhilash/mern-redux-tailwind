@@ -9,6 +9,10 @@ import {
   COUNCIL_DELETE_FAIL,
   COUNCIL_DELETE_REQUEST,
   COUNCIL_DELETE_SUCCESS,
+  COUNCIL_DETAILS_REQUEST,
+  COUNCIL_DETAILS_SUCCESS,
+  COUNCIL_DETAILS_FAIL,
+  COUNCIL_DETAILS_RESET,
 } from "../constants/councilConstants";
 
 //council list
@@ -50,6 +54,22 @@ export const councilDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case COUNCIL_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+//council details
+export const councilDetailsReducer = (state = { council: {} }, action) => {
+  switch (action.type) {
+    case COUNCIL_DETAILS_REQUEST:
+      return { ...state, loading: true };
+    case COUNCIL_DETAILS_SUCCESS:
+      return { loading: false, council: action.payload };
+    case COUNCIL_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    case COUNCIL_DETAILS_RESET:
+      return { council: {} };
     default:
       return state;
   }

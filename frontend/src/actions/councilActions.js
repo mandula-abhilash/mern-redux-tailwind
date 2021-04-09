@@ -11,7 +11,15 @@ import {
   COUNCIL_DELETE_REQUEST,
   COUNCIL_DELETE_SUCCESS,
   COUNCIL_DELETE_FAIL,
+  COUNCIL_DETAILS_REQUEST,
+  COUNCIL_DETAILS_SUCCESS,
+  COUNCIL_DETAILS_FAIL,
 } from "../constants/councilConstants";
+import {
+  USER_DETAILS_RESET,
+  USER_LIST_RESET,
+  USER_LOGOUT,
+} from "../constants/userConstants";
 
 export const getCouncils = () => async (dispatch, getState) => {
   try {
@@ -122,7 +130,7 @@ export const deleteCouncil = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/councils/delete/${id}`, config);
+    const { data } = await axios.delete(`/api/councils/${id}`, config);
 
     dispatch({
       type: COUNCIL_DELETE_SUCCESS,
@@ -143,4 +151,50 @@ export const deleteCouncil = (id) => async (dispatch, getState) => {
 
 export const addReset = () => (dispatch) => {
   dispatch({ type: COUNCIL_ADD_RESET });
+};
+
+export const getCouncilDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: COUNCIL_DETAILS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/councils/${id}`, config);
+
+    dispatch({
+      type: COUNCIL_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: COUNCIL_DETAILS_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem("userInfo");
+  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: USER_LIST_RESET });
+  document.location.href = "/";
 };

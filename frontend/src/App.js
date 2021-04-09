@@ -7,12 +7,14 @@ import UserListScreen from "./screens/UserListScreen";
 import TestScreen from "./screens/TestScreen";
 import Footer from "./components/Footer";
 import ActivateScreen from "./screens/ActivateScreen";
+import EditCouncilScreen from "./screens/EditCouncilScreen";
 
 const App = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Router>
         <Route exact path="/admin/users" component={UserListScreen} />
+        <Route exact path="/council/:id/edit" component={EditCouncilScreen} />
         <Route exact path="/dashboard" component={DashboardScreen} />
         <Route exact path="/auth/activate/:token" component={ActivateScreen} />
         <Route exact path="/register" component={RegisterScreen} />

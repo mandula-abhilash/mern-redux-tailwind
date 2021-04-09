@@ -2,7 +2,8 @@ import express from "express";
 import {
   getCouncils,
   addCouncil,
-  deleteCouncil,
+  deleteCouncilById,
+  getCouncilById,
 } from "../controllers/councilController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -15,6 +16,10 @@ router.route("/list").get(protect, getCouncils);
 router
   .route("/add")
   .post(protect, admin, councilAddValidator, runValidation, addCouncil);
-router.route("/delete/:id").delete(protect, admin, deleteCouncil);
+router
+  .route("/:id")
+  .get(protect, admin, getCouncilById)
+  .delete(protect, admin, deleteCouncilById);
+router.route("");
 
 export default router;

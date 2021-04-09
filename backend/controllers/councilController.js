@@ -42,7 +42,7 @@ const addCouncil = asyncHandler(async (req, res) => {
 // @desc    Delete council
 // @route   DELETE /api/councils/delete/:id
 // @access  Private/Admin
-const deleteCouncil = asyncHandler(async (req, res) => {
+const deleteCouncilById = asyncHandler(async (req, res) => {
   const council = await Council.findById(req.params.id);
 
   if (council) {
@@ -56,4 +56,18 @@ const deleteCouncil = asyncHandler(async (req, res) => {
   }
 });
 
-export { getCouncils, addCouncil, deleteCouncil };
+// @desc    Fetch single product
+// @route   GET /api/councils/:id
+// @access  Public
+const getCouncilById = asyncHandler(async (req, res) => {
+  const council = await Council.findById(req.params.id);
+
+  if (council) {
+    res.json(council);
+  } else {
+    res.status(404);
+    throw new Error("Council not found");
+  }
+});
+
+export { getCouncils, addCouncil, deleteCouncilById, getCouncilById };

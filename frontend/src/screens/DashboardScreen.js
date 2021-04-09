@@ -10,7 +10,7 @@ import AddCouncil from "../components/AddCouncil";
 const DashboardScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  const { isAdmin } = userInfo;
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const councilList = useSelector((state) => state.councilList);
   let { loading, error } = councilList;
@@ -19,6 +19,8 @@ const DashboardScreen = ({ history }) => {
 
   useEffect(() => {
     if (userInfo) {
+      const { isAdmin } = userInfo;
+      setIsAdmin(isAdmin);
     } else {
       history.push("/");
     }

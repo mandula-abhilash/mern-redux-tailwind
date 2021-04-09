@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCouncils, deleteCouncil } from "../actions/councilActions";
+import { Link, useHistory } from "react-router-dom";
 import Loader from "./Loader";
 import Message from "./Message";
 
-const Councils = ({ history }) => {
+const Councils = () => {
   const dispatch = useDispatch();
+
+  let history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const councilList = useSelector((state) => state.councilList);
   let { loading, error, councils } = councilList;
@@ -23,6 +28,8 @@ const Councils = ({ history }) => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getCouncils());
+      const { isAdmin } = userInfo;
+      setIsAdmin(isAdmin);
     } else {
       history.push("/");
     }
@@ -83,8 +90,8 @@ const Councils = ({ history }) => {
                     />
                   </div>
                 </div>
-                <div className="w-full lg:w-2/4 xl:w-1/3 flex flex-col lg:flex-row items-start lg:items-center justify-between">
-                  <div className="relative w-full lg:w-2/4 my-2 lg:my-0 lg:mx-2 xl:mx-4 z-10">
+                <div className="w-full lg:w-2/4 xl:w-1/3 flex flex-col lg:flex-row items-center justify-end">
+                  {/* <div className="relative w-full lg:w-2/4 my-2 lg:my-0 lg:mx-2 xl:mx-4 z-10">
                     <div className="z-0 absolute inset-0 m-auto mr-2 xl:mr-4 w-5 h-5">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -125,8 +132,8 @@ const Councils = ({ history }) => {
                         TERMINATED
                       </option>
                     </select>
-                  </div>
-                  <button className="focus:shadow-outline-gray border border-transparent w-auto lg:w-1/4 my-2 lg:my-0 lg:ml-2 xl:ml-4 bg-indigo-700 transition focus:outline-none focus:border-gray-800 focus:shadow-outline-gray duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-6 py-2 text-sm tracking-wider">
+                  </div> */}
+                  <button className="focus:shadow-outline-gray border border-transparent w-auto lg:w-1/4 my-6 lg:my-0 lg:ml-2 xl:ml-4 bg-indigo-700 transition focus:outline-none focus:border-gray-800 focus:shadow-outline-gray duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-6 py-2 text-sm tracking-wider">
                     SEARCH
                   </button>
                 </div>
@@ -147,9 +154,11 @@ const Councils = ({ history }) => {
                       <th className="text-gray-600 font-bold pr-6 text-center text-sm tracking-normal leading-4">
                         Date Types
                       </th>
-                      <th className="text-gray-600 font-bold pr-6 text-center text-sm tracking-normal leading-4">
-                        Action
-                      </th>
+                      {isAdmin && (
+                        <th className="text-gray-600 font-bold pr-6 text-center text-sm tracking-normal leading-4">
+                          Action
+                        </th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -179,63 +188,65 @@ const Councils = ({ history }) => {
                             {council.dateTypes && council.dateTypes.join(", ")}
                           </td>
 
-                          <td className="text-sm pr-6 whitespace-no-wrap text-center text-gray-800  tracking-normal leading-4">
-                            <div className="flex items-center justify-center">
-                              <a
-                                className="rounded border border-transparent focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
-                                href="/"
-                              >
-                                <div className="p-2 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-indigo-700">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="icon icon-tabler icon-tabler-edit"
-                                    width={20}
-                                    height={20}
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  >
-                                    <path stroke="none" d="M0 0h24v24H0z" />
-                                    <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                    <line x1={16} y1={5} x2={19} y2={8} />
-                                  </svg>
-                                </div>
-                              </a>
+                          {isAdmin && (
+                            <td className="text-sm pr-6 whitespace-no-wrap text-center text-gray-800  tracking-normal leading-4">
+                              <div className="flex items-center justify-center">
+                                <Link
+                                  className="rounded border border-transparent focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                                  to={`/council/${council._id}/edit`}
+                                >
+                                  <div className="p-2 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-indigo-700">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="icon icon-tabler icon-tabler-edit"
+                                      width={20}
+                                      height={20}
+                                      viewBox="0 0 24 24"
+                                      strokeWidth="1.5"
+                                      stroke="currentColor"
+                                      fill="none"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    >
+                                      <path stroke="none" d="M0 0h24v24H0z" />
+                                      <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                      <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                      <line x1={16} y1={5} x2={19} y2={8} />
+                                    </svg>
+                                  </div>
+                                </Link>
 
-                              <button
-                                onClick={() =>
-                                  deleteCouncilHandler(council._id)
-                                }
-                                className="rounded border border-transparent focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
-                              >
-                                <div className="p-2 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-red-500">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="icon icon-tabler icon-tabler-trash"
-                                    width={20}
-                                    height={20}
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  >
-                                    <path stroke="none" d="M0 0h24v24H0z" />
-                                    <line x1={4} y1={7} x2={20} y2={7} />
-                                    <line x1={10} y1={11} x2={10} y2={17} />
-                                    <line x1={14} y1={11} x2={14} y2={17} />
-                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                  </svg>
-                                </div>
-                              </button>
-                            </div>
-                          </td>
+                                <button
+                                  onClick={() =>
+                                    deleteCouncilHandler(council._id)
+                                  }
+                                  className="rounded border border-transparent focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                                >
+                                  <div className="p-2 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer text-red-500">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="icon icon-tabler icon-tabler-trash"
+                                      width={20}
+                                      height={20}
+                                      viewBox="0 0 24 24"
+                                      strokeWidth="1.5"
+                                      stroke="currentColor"
+                                      fill="none"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    >
+                                      <path stroke="none" d="M0 0h24v24H0z" />
+                                      <line x1={4} y1={7} x2={20} y2={7} />
+                                      <line x1={10} y1={11} x2={10} y2={17} />
+                                      <line x1={14} y1={11} x2={14} y2={17} />
+                                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                      <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                    </svg>
+                                  </div>
+                                </button>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))}
                   </tbody>

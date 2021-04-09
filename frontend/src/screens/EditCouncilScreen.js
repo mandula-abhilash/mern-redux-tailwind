@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "./Loader";
-import Message from "./Message";
-import { addCouncil } from "../actions/councilActions";
-import { useHistory } from "react-router-dom";
-import { COUNCIL_ADD_RESET } from "../constants/councilConstants";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import { getCouncilDetails } from "../actions/councilActions";
 
-const AddCouncil = () => {
-  const history = useHistory();
+const EditCouncilScreen = ({ match, history }) => {
+  const councilId = match.params.id;
 
   const [authorityName, setAuthorityName] = useState("");
   const [authorityURL, setAuthorityURL] = useState("");
@@ -16,22 +15,32 @@ const AddCouncil = () => {
 
   const dispatch = useDispatch();
 
-  // const councilList = useSelector((state) => state.councilList);
-  // let { loading, error, councils } = councilList;
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const councilAdd = useSelector((state) => state.councilAdd);
-  let { loading, error, success } = councilAdd;
+  const councilDetails = useSelector((state) => state.councilDetails);
+  let { loading, error, council } = councilDetails;
 
   useEffect(() => {
-    dispatch({ type: COUNCIL_ADD_RESET });
-    if (success) {
-      // dispatch({ type: COUNCIL_ADD_RESET });
+    if (userInfo && userInfo.isAdmin) {
+      if (!council.authorityName || council._id !== councilId) {
+        dispatch(getCouncilDetails(councilId));
+      } else {
+        let dateTypeValues = [];
+
+        setAuthorityName(council.authorityName);
+        setAuthorityURL(council.authorityURL);
+        setAuthorityType(council.authorityType);
+
+        council.dateTypes.forEach((dateType) =>
+          dateTypeValues.push({ value: dateType })
+        );
+        setDateTypes(dateTypeValues);
+      }
+    } else {
       history.push("/");
     }
-  }, [dispatch, userInfo, success, history]);
+  }, [dispatch, history, councilId, council, userInfo]);
 
   const handleDateTypeChange = (index, event) => {
     const values = [...dateTypes];
@@ -54,20 +63,23 @@ const AddCouncil = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const dateTypeValues = dateTypes.map(
-      (dateType) => dateType != null && dateType.value.trim()
+    const dateTypeValues = dateTypes.filter(
+      (dateType) => !!dateType.value && !!dateType.value.trim()
     );
+
     const values = {
       authorityName: authorityName.trim(),
       authorityURL: authorityURL.trim(),
       authorityType: authorityType.trim(),
       dateTypes: dateTypeValues,
     };
-    dispatch(addCouncil(values));
+    console.log(values);
+    // dispatch(addCouncil(values));
   };
 
   return (
     <>
+      <Header />
       <section className="bg-white flex-grow rounded-md">
         <div className="mx-auto flex justify-center md:items-center relative">
           <form
@@ -75,8 +87,8 @@ const AddCouncil = () => {
             className="w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-600 mb-12 sm:mb-0 my-10 sm:my-6 px-6"
           >
             <div className="pt-16 px-2 flex flex-col items-center justify-center">
-              <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight uppercase">
-                Add New Council
+              <h3 className="text-lg text-pink-600 font-bold mb-4 leading-tight tracking-tight uppercase">
+                {authorityName} Council
               </h3>
               {error && <Message variant="danger">{error}</Message>}
               {loading && <Loader />}
@@ -93,9 +105,9 @@ const AddCouncil = () => {
                   name="authorityName"
                   id="authorityName"
                   type="text"
-                  autoComplete="off"
                   className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                   onChange={(e) => setAuthorityName(e.target.value)}
+                  value={authorityName}
                 />
               </div>
               <div className="flex flex-col mt-8">
@@ -109,9 +121,9 @@ const AddCouncil = () => {
                   name="authorityURL"
                   id="authorityURL"
                   type="text"
-                  autoComplete="off"
                   className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                   onChange={(e) => setAuthorityURL(e.target.value)}
+                  value={authorityURL}
                 />
               </div>
 
@@ -126,9 +138,9 @@ const AddCouncil = () => {
                   name="authorityType"
                   id="authorityType"
                   type="text"
-                  autoComplete="off"
                   className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
                   onChange={(e) => setAuthorityType(e.target.value)}
+                  value={authorityType}
                 />
               </div>
 
@@ -145,7 +157,6 @@ const AddCouncil = () => {
                       <input
                         type="text"
                         value={dateType.value || ""}
-                        autoComplete="off"
                         className={
                           index === 0
                             ? "h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
@@ -185,7 +196,7 @@ const AddCouncil = () => {
                 type="submit"
                 className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
               >
-                Add Council
+                Update Council
               </button>
             </div>
           </form>
@@ -195,4 +206,4 @@ const AddCouncil = () => {
   );
 };
 
-export default AddCouncil;
+export default EditCouncilScreen;

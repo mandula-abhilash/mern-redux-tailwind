@@ -24,16 +24,11 @@ const RegisterScreen = ({ location, history }) => {
     : "/dashboard";
 
   useEffect(() => {
-    console.log("Re redering");
     if (userInfo) {
       history.push(redirect);
     }
     // }, [history, formErrors, userInfo, redirect]);
   }, [history, userInfo, redirect]);
-
-  useEffect(() => {
-    dispatch(registerReset());
-  }, [redirect]);
 
   useEffect(() => {
     if (message) {
@@ -52,7 +47,7 @@ const RegisterScreen = ({ location, history }) => {
       setEmail(email);
       setAccessKey(accessKey);
     }
-  }, [name, email, accessKey, message, error, registerReset]);
+  }, [name, email, accessKey, message, error, dispatch, history]);
 
   const submitHandler = (e) => {
     e.preventDefault();
