@@ -21,9 +21,10 @@ const DashboardScreen = ({ history }) => {
     if (userInfo) {
       const { isAdmin } = userInfo;
       setIsAdmin(isAdmin);
-    } else {
-      history.push("/");
     }
+    // else {
+    //   history.push("/");
+    // }
   }, [history, userInfo, activeStatus]);
 
   const handleChange = (selectedTab) => {

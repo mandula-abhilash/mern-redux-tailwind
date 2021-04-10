@@ -7,19 +7,12 @@ import { listUsers } from "../actions/userActions";
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listUsers());
-    } else {
-      history.push("/");
-    }
-  }, [dispatch, history, userInfo]);
+    dispatch(listUsers());
+  }, [dispatch, history]);
 
   return (
     <div>

@@ -16,9 +16,7 @@ const Header = () => {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push("/");
-    } else {
+    if (userInfo) {
       const { name } = userInfo;
       setNameInitials(initials(name, 2));
     }

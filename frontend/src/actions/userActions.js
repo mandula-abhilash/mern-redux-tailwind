@@ -65,7 +65,6 @@ export const logout = () => (dispatch) => {
 
 export const registerReset = () => (dispatch) => {
   dispatch({ type: USER_REGISTER_RESET });
-  // document.location.href = "/";
 };
 
 export const register = (name, email, accessKey) => async (dispatch) => {

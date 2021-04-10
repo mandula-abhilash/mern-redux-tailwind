@@ -16,32 +16,25 @@ const EditCouncilScreen = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   const councilDetails = useSelector((state) => state.councilDetails);
   let { loading, error, council } = councilDetails;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      if (!council.authorityName || council._id !== councilId) {
-        dispatch(getCouncilDetails(councilId));
-      } else {
-        let dateTypeValues = [];
-
-        setAuthorityName(council.authorityName);
-        setAuthorityURL(council.authorityURL);
-        setAuthorityType(council.authorityType);
-
-        council.dateTypes.forEach((dateType) =>
-          dateTypeValues.push({ value: dateType })
-        );
-        setDateTypes(dateTypeValues);
-      }
+    if (!council.authorityName || council._id !== councilId) {
+      dispatch(getCouncilDetails(councilId));
     } else {
-      history.push("/");
+      let dateTypeValues = [];
+
+      setAuthorityName(council.authorityName);
+      setAuthorityURL(council.authorityURL);
+      setAuthorityType(council.authorityType);
+
+      council.dateTypes.forEach((dateType) =>
+        dateTypeValues.push({ value: dateType })
+      );
+      setDateTypes(dateTypeValues);
     }
-  }, [dispatch, history, councilId, council, userInfo]);
+  }, [dispatch, history, councilId, council]);
 
   const handleDateTypeChange = (index, event) => {
     const values = [...dateTypes];
