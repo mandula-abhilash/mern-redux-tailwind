@@ -71,12 +71,13 @@ const ProfileScreen = ({ history }) => {
                 onClick={() => setEditProfile(true)}
                 className="ml-2 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-3 py-2 text-sm"
               >
-                Edit
+                <i className="far fa-edit"></i>
               </button>
               <Link
                 to="/"
                 className="ml-2 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-3 py-2 text-sm"
               >
+                {/* <i className="fas fa-long-arrow-alt-left mr-2"></i> */}
                 Back
               </Link>
             </div>

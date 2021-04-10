@@ -21,7 +21,12 @@ export const councilListReducer = (state = { councils: [] }, action) => {
     case COUNCIL_LIST_REQUEST:
       return { loading: true, councils: [] };
     case COUNCIL_LIST_SUCCESS:
-      return { loading: false, councils: action.payload.councils };
+      return {
+        loading: false,
+        councils: action.payload.councils,
+        page: action.payload.page,
+        pages: action.payload.pages,
+      };
     case COUNCIL_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:

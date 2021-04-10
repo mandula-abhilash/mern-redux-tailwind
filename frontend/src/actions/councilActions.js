@@ -21,7 +21,10 @@ import {
   USER_LOGOUT,
 } from "../constants/userConstants";
 
-export const getCouncils = () => async (dispatch, getState) => {
+export const getCouncils = (keyword = "", pageNumber = "") => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({
       type: COUNCIL_LIST_REQUEST,
@@ -37,7 +40,10 @@ export const getCouncils = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/councils/list`, config);
+    const { data } = await axios.get(
+      `/api/councils/list?keyword=${keyword}&pageNumber=${pageNumber}`,
+      config
+    );
 
     // console.log("List Success : " + JSON.stringify(data));
     dispatch({

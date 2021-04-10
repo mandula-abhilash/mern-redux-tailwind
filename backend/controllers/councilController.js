@@ -5,8 +5,24 @@ import Council from "../models/councils.model.js";
 // @route   GET /api/councils/list
 // @access  Private
 const getCouncils = asyncHandler(async (req, res) => {
-  const councils = await Council.find({});
-  res.json({ councils });
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? {
+        authorityName: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const count = await Council.countDocuments({ ...keyword });
+  const councils = await Council.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ councils, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc    Add council

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -80,20 +81,30 @@ const EditCouncilScreen = ({ match, history }) => {
   return (
     <>
       <Header />
-      <section className="bg-white flex-grow rounded-md">
-        <div className="mx-auto flex justify-center md:items-center relative">
+      <section className="bg-white flex-grow rounded-md pb-20">
+        <div className="mt-8 pl-6 md:pl-0 mx-auto w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 flex items-center justify-start rounded-tl-lg rounded-tr-lg">
+          <div className="mt-0">
+            <Link
+              to="/"
+              className="bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-3 py-2 text-sm font-semibold"
+            >
+              <i className="fas fa-long-arrow-alt-left mr-2"></i> Back
+            </Link>
+          </div>
+        </div>
+        <div className="mx-auto flex justify-center md:items-center">
           <form
             onSubmit={submitHandler}
-            className="w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-600 mb-12 sm:mb-0 my-10 sm:my-6 px-6"
+            className=" bg-gray-100 rounded w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-600 mb-12 sm:mb-0 my-10 sm:my-6 px-6"
           >
-            <div className="pt-16 px-2 flex flex-col items-center justify-center">
-              <h3 className="text-lg text-pink-600 font-bold mb-4 leading-tight tracking-tight uppercase">
-                {authorityName} Council
+            <div className="pt-2 px-2 flex flex-col items-center justify-center">
+              <h3 className="text-lg text-pink-600 font-bold my-10 leading-relaxed tracking-tight uppercase text-center">
+                {authorityName && <span>{authorityName} Council</span>}
               </h3>
               {error && <Message variant="danger">{error}</Message>}
               {loading && <Loader />}
             </div>
-            <div className="mt-12 mx-auto w-full xl:w-9/12 2xl:w-6/12 px-2 sm:px-6 uppercase">
+            <div className="mt-4 mx-auto w-full xl:w-9/12 2xl:w-6/12 px-2 sm:px-6 uppercase">
               <div className="flex flex-col mt-8">
                 <label
                   htmlFor="authorityName"

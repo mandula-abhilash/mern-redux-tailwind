@@ -158,22 +158,22 @@ const AddCouncil = () => {
                         className={
                           index === 0
                             ? "hidden"
-                            : "focus:outline-none w-1/6 bg-gray-200 transition duration-150 ease-in-out hover:bg-gray-300 rounded ml-4 mt-6 text-lg font-bold text-indigo-900 shadow-md"
+                            : "focus:outline-none w-1/6 bg-gray-200 transition duration-150 ease-in-out hover:bg-gray-300 rounded ml-4 mt-6 text-xs font-semibold text-indigo-900 shadow-md"
                         }
                         onClick={() => handleDateTypeRemove(index)}
                       >
-                        -
+                        <i class="fas fa-minus"></i>
                       </button>
                       <button
                         type="button"
                         className={
                           index === 0
-                            ? "focus:outline-none w-1/6 bg-gray-200 transition duration-150 ease-in-out hover:bg-gray-300 rounded ml-4 mt-2 text-lg font-bold text-indigo-900 shadow-md"
-                            : "focus:outline-none w-1/6 bg-gray-200 transition duration-150 ease-in-out hover:bg-gray-300 rounded ml-4 mt-6 text-lg font-bold text-indigo-900 shadow-md"
+                            ? "focus:outline-none w-1/6 bg-gray-200 transition duration-150 ease-in-out hover:bg-gray-300 rounded ml-4 mt-2 text-xs font-semibold text-indigo-900 shadow-md"
+                            : "focus:outline-none w-1/6 bg-gray-200 transition duration-150 ease-in-out hover:bg-gray-300 rounded ml-4 mt-6 text-xs font-semibold text-indigo-900 shadow-md"
                         }
                         onClick={() => handleDateTypeAdd()}
                       >
-                        +
+                        <i class="fas fa-plus"></i>
                       </button>
                     </div>
                   );

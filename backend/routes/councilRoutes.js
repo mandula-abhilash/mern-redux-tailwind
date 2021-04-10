@@ -20,6 +20,5 @@ router
   .route("/:id")
   .get(protect, admin, getCouncilById)
   .delete(protect, admin, deleteCouncilById);
-router.route("");
 
 export default router;
