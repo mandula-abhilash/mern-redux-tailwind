@@ -72,7 +72,7 @@ const Header = () => {
                     <Link to="/profile">
                       <li className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
                         <div className="flex items-center">
-                          <i class="fas fa-user"></i>
+                          <i className="fas fa-user"></i>
                           <span className="ml-2">My Profile</span>
                         </div>
                       </li>
@@ -155,7 +155,7 @@ const Header = () => {
                       <Link to="/profile">
                         <li className="cursor-pointer text-gray-600 dark:text-gray-400 text-sm leading-3 tracking-normal py-2 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none">
                           <div className="flex items-center">
-                            <i class="fas fa-user"></i>
+                            <i className="fas fa-user"></i>
                             <span className="ml-2">My Profile</span>
                           </div>
                         </li>

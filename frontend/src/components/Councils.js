@@ -231,8 +231,8 @@ const Councils = () => {
                   onClick={() => paginationHandler(page - 1)}
                   className={
                     page <= 1
-                      ? "cursor-not-allowed bg-gray-100 px-3 py-2 mr-2 sm:mr-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-indigo-600 focus:shadow-outline-gray"
-                      : "bg-gray-100 px-3 py-2 mr-2 sm:mr-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-indigo-600 focus:shadow-outline-gray"
+                      ? "cursor-not-allowed bg-gray-100 px-3 py-1 mr-2 sm:mr-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-gray-300 focus:shadow-outline-gray shadow-md text-sm"
+                      : "bg-gray-100 px-3 py-1 mr-2 sm:mr-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-indigo-600 focus:shadow-outline-gray shadow-md text-sm"
                   }
                   disabled={page <= 1}
                 >
@@ -255,8 +255,8 @@ const Councils = () => {
                   onClick={() => paginationHandler(page + 1)}
                   className={
                     page === pages
-                      ? "cursor-not-allowed bg-gray-100 px-3 py-2 mx-2 sm:mx-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-indigo-600 focus:shadow-outline-gray"
-                      : "bg-gray-100 px-3 py-2 mx-2 sm:mx-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-indigo-600 focus:shadow-outline-gray"
+                      ? "cursor-not-allowed bg-gray-100 px-3 py-1 mx-2 sm:mx-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-gray-300 focus:shadow-outline-gray shadow-md text-sm"
+                      : "bg-gray-100 px-3 py-1 mx-2 sm:mx-5 rounded border border-transparent focus:outline-none focus:border-gray-800 text-indigo-600 focus:shadow-outline-gray shadow-md text-sm"
                   }
                   disabled={page === pages}
                 >

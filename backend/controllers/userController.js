@@ -15,17 +15,27 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
+    res.cookie("token", token, { maxAge: 86400000, httpOnly: true });
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      // token: generateToken(user._id),
     });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
   }
+});
+
+// @desc    Logout user & clear cookie
+// @route   GET /api/users/logout
+// @access  Public
+const logout = asyncHandler(async (req, res) => {
+  res.clearCookie("token");
+  res.send();
 });
 
 // @desc    Register a new user
@@ -60,27 +70,6 @@ const registerUser = asyncHandler(async (req, res) => {
   };
 
   await sendEmailWithNodemailer(req, res, emailData);
-
-  //Code to uncomment for normal registration flow starts
-  // const user = await User.create({
-  //   name,
-  //   email,
-  //   password,
-  // });
-
-  // if (user) {
-  //   res.status(201).json({
-  //     _id: user._id,
-  //     name: user.name,
-  //     email: user.email,
-  //     isAdmin: user.isAdmin,
-  //     token: generateToken(user._id),
-  //   });
-  // } else {
-  //   res.status(400);
-  //   throw new Error("Invalid user data");
-  // }
-  //Code to uncomment for normal registration flow ends
 });
 
 // @desc    Verify account activation link
@@ -88,8 +77,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access  Public
 const accountActivation = asyncHandler(async (req, res) => {
   const { token, password } = req.body;
-  console.log("Token" + token);
-  console.log("Pass" + password);
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION);
@@ -110,12 +97,14 @@ const accountActivation = asyncHandler(async (req, res) => {
       });
 
       if (user) {
+        const userToken = generateToken(user._id);
+        res.cookie("token", userToken, { maxAge: 86400000, httpOnly: true });
         res.status(201).json({
           _id: user._id,
           name: user.name,
           email: user.email,
           isAdmin: user.isAdmin,
-          token: generateToken(user._id),
+          // token: userToken
         });
       } else {
         res.status(400);
@@ -163,12 +152,17 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 
     const updatedUser = await user.save();
+
+    const token = generateToken(updatedUser._id);
+
+    res.cookie("token", token, { maxAge: 86400000, httpOnly: true });
+
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
-      token: generateToken(updatedUser._id),
+      // token: generateToken(updatedUser._id),
     });
   } else {
     res.status(404);
@@ -236,6 +230,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser,
+  logout,
   registerUser,
   accountActivation,
   getUserProfile,

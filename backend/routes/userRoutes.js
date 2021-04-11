@@ -9,6 +9,7 @@ import {
   deleteUser,
   getUserById,
   updateUser,
+  logout,
 } from "../controllers/userController.js";
 
 import { runValidation } from "../validators/index.js";
@@ -34,6 +35,7 @@ router
   .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+router.route("/logout").get(logout);
 router
   .route("/:id")
   .delete(protect, admin, deleteUser)

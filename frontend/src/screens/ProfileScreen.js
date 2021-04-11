@@ -22,27 +22,20 @@ const ProfileScreen = ({ history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push("/");
+    if (!user || !user.name || success) {
+      dispatch({ type: USER_UPDATE_PROFILE_RESET });
+      dispatch(getUserDetails("profile"));
+      setPassword("");
+      setConfirmPassword("");
     } else {
-      if (!user || !user.name || success) {
-        dispatch({ type: USER_UPDATE_PROFILE_RESET });
-        dispatch(getUserDetails("profile"));
-        setPassword("");
-        setConfirmPassword("");
-      } else {
-        setName(user.name);
-        setEmail(user.email);
-      }
+      setName(user.name);
+      setEmail(user.email);
     }
-  }, [dispatch, history, userInfo, userLogin, success, user]);
+  }, [dispatch, history, success, user]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -52,8 +45,6 @@ const ProfileScreen = ({ history }) => {
       setMessage("Please enter your password");
     } else {
       dispatch(updateUserProfile({ id: user._id, name, email, password }));
-      // setPassword("");
-      // setConfirmPassword("");
     }
   };
 
@@ -67,12 +58,19 @@ const ProfileScreen = ({ history }) => {
               {editProfile ? "Edit Profile" : "Profile"}
             </h4>
             <div className="mt-0">
-              <button
-                onClick={() => setEditProfile(true)}
-                className="ml-2 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-3 py-2 text-sm"
-              >
-                <i className="far fa-edit"></i>
-              </button>
+              {!editProfile && (
+                <button
+                  onClick={() => setEditProfile(true)}
+                  className={
+                    editProfile
+                      ? "cursor-not-allowed ml-2 shadow-md focus:outline-none transition duration-150 ease-in-out rounded bg-gray-400 text-white px-3 py-2 text-sm"
+                      : "ml-2 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-3 py-2 text-sm"
+                  }
+                  disabled={editProfile}
+                >
+                  <i className="far fa-edit"></i>
+                </button>
+              )}
               <Link
                 to="/"
                 className="ml-2 bg-white shadow-md focus:outline-none transition duration-150 ease-in-out rounded hover:bg-indigo-700 hover:text-white text-indigo-700 px-3 py-2 text-sm"

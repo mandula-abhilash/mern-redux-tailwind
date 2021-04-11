@@ -24,7 +24,7 @@ const App = () => {
             component={EditCouncilScreen}
           />
           <PrivateRoute exact path="/dashboard" component={DashboardScreen} />
-          <PrivateRoute
+          <Route
             exact
             path="/auth/activate/:token"
             component={ActivateScreen}
