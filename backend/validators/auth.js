@@ -25,8 +25,33 @@ const userSignInValidator = [
     .withMessage("Password must be at least 6 characters long"),
 ];
 
+const userProfileUpdateValidator = [
+  check("name").not().isEmpty().withMessage("Please enter your name"),
+  check("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+];
+
+const forgotPasswordValidator = [
+  check("email")
+    .not()
+    .isEmpty()
+    .isEmail()
+    .withMessage("Please enter a valid email address"),
+];
+
+const resetPasswordValidator = [
+  check("newPassword")
+    .notEmpty()
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+];
+
 export {
   userSignUpValidator,
   userSignInValidator,
   userAccountActivationValidator,
+  userProfileUpdateValidator,
+  forgotPasswordValidator,
+  resetPasswordValidator,
 };

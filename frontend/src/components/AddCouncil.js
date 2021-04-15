@@ -162,7 +162,7 @@ const AddCouncil = () => {
                         }
                         onClick={() => handleDateTypeRemove(index)}
                       >
-                        <i class="fas fa-minus"></i>
+                        <i className="fas fa-minus"></i>
                       </button>
                       <button
                         type="button"
@@ -173,7 +173,7 @@ const AddCouncil = () => {
                         }
                         onClick={() => handleDateTypeAdd()}
                       >
-                        <i class="fas fa-plus"></i>
+                        <i className="fas fa-plus"></i>
                       </button>
                     </div>
                   );

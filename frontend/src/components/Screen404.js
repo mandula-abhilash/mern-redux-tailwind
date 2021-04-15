@@ -13,9 +13,10 @@ const Screen404 = ({ history }) => {
 
   return (
     <div className="flex-grow">
-      <div className="w-full flex h-96 justify-center items-center">
-        <div className="p-16 m-auto bg-gray-100 dark:bg-gray-800 rounded-xl max-w-2xl overflow-auto">
-          <p className="text-2xl lg:text-3xl font-bold lg:leading-10 text-gray-800 dark:text-gray-50">
+      <div className="w-full h-96 mx-auto justify-center items-center">
+        {/* <div className="p-16 m-auto bg-gray-100 dark:bg-gray-800 rounded-xl max-w-2xl"> */}
+        <div className="p-16 my-36 bg-gray-100 rounded-xl justify-center items-center mx-auto max-w-2xl">
+          <p className="text-2xl break-all lg:text-3xl font-bold lg:leading-10 text-gray-800 dark:text-gray-50">
             No match found for path <code>{location.pathname}</code>
           </p>
           <div className="mt-4">

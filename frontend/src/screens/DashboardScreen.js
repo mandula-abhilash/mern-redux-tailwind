@@ -22,9 +22,6 @@ const DashboardScreen = ({ history }) => {
       const { isAdmin } = userInfo;
       setIsAdmin(isAdmin);
     }
-    // else {
-    //   history.push("/");
-    // }
   }, [history, userInfo, activeStatus]);
 
   const handleChange = (selectedTab) => {
@@ -77,6 +74,7 @@ const DashboardScreen = ({ history }) => {
                           ? "text-sm text-gray-600 selected"
                           : "text-sm text-gray-600"
                       }
+                      selected={activeStatus === 1}
                     >
                       Councils
                     </option>
@@ -86,6 +84,7 @@ const DashboardScreen = ({ history }) => {
                           ? "text-sm text-gray-600 selected"
                           : "text-sm text-gray-600"
                       }
+                      selected={activeStatus === 2}
                     >
                       Reports
                     </option>
@@ -95,6 +94,7 @@ const DashboardScreen = ({ history }) => {
                           ? "text-sm text-gray-600 selected"
                           : "text-sm text-gray-600"
                       }
+                      selected={activeStatus === 3}
                     >
                       Registrations
                     </option>
@@ -105,6 +105,7 @@ const DashboardScreen = ({ history }) => {
                             ? "text-sm text-gray-600 selected"
                             : "text-sm text-gray-600"
                         }
+                        selected={activeStatus === 4}
                       >
                         Add Council
                       </option>

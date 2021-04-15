@@ -2,11 +2,18 @@ import asyncHandler from "express-async-handler";
 import {
   generateToken,
   generateAccountActivationToken,
+  generateResetPasswordToken,
 } from "../utils/generateToken.js";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
-import sendEmailWithNodemailer from "../helpers/email.js";
-import html from "../helpers/emailTemplate.js";
+import {
+  sendEmailWithNodemailer,
+  sendResetPasswordEmail,
+} from "../helpers/email.js";
+import {
+  emailVerficationHtml,
+  resetPasswordHtml,
+} from "../helpers/emailTemplate.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -66,7 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
     from: process.env.EMAIL_FROM,
     to: email,
     subject: "Planning Applications: Email Verification Required",
-    html: html(name, token),
+    html: emailVerficationHtml(name, token),
   };
 
   await sendEmailWithNodemailer(req, res, emailData);
@@ -228,6 +235,105 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    forgot password
+// @route   PUT /api/users/forgot-password
+// @access  Public
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  try {
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      const { name, _id } = userExists;
+      const token = generateResetPasswordToken({ name, email, _id });
+
+      const emailData = {
+        from: process.env.EMAIL_FROM,
+        to: email,
+        subject: "Planning Applications: Password reset link",
+        html: resetPasswordHtml(name, token),
+      };
+
+      const updatedUser = await userExists.updateOne({
+        resetPasswordLink: token,
+      });
+
+      if (updatedUser) {
+        await sendResetPasswordEmail(req, res, emailData);
+      } else {
+        res.status(400);
+        throw new Error(
+          `Unable to send link to reset your password now. Please try again later`
+        );
+      }
+    } else {
+      res.status(400);
+      throw new Error(`User with email address ${email} does not exist.`);
+    }
+  } catch (error) {
+    res.status(401);
+    if (error.message.includes("jwt expired")) {
+      throw new Error("Your link has expired. Please register again.");
+    } else {
+      throw new Error(error.message);
+    }
+  }
+});
+
+// @desc    reset password
+// @route   PUT /api/users/reset-password
+// @access  Public
+const resetPassword = asyncHandler(async (req, res) => {
+  const { resetPasswordLink, newPassword } = req.body;
+
+  if (resetPasswordLink) {
+    try {
+      const decoded = jwt.verify(
+        resetPasswordLink,
+        process.env.JWT_RESET_PASSWORD
+      );
+
+      if (decoded) {
+        const userExists = await User.findOne({ resetPasswordLink });
+
+        if (userExists) {
+          userExists.password = newPassword;
+          userExists.resetPasswordLink = "";
+
+          const updatedUser = await userExists.save();
+
+          if (updatedUser) {
+            res.status(201).json({
+              message: `Password updated succesfully. Please login with your new password`,
+            });
+          } else {
+            res.status(400);
+            throw new Error(
+              "Something went wrong. Error resetting user password"
+            );
+          }
+        } else {
+          res.status(400);
+          throw new Error("Invalid link. Please try again");
+        }
+      } else {
+        res.status(400);
+        throw new Error("Password rest link has expired. Please try again.");
+      }
+    } catch (error) {
+      res.status(401);
+      if (error.message.includes("jwt expired")) {
+        throw new Error("Your link has expired. Please try again.");
+      } else {
+        throw new Error(error.message);
+      }
+    }
+  } else {
+    res.status(400);
+    throw new Error("Password rest link has expired. Please try again.");
+  }
+});
+
 export {
   authUser,
   logout,
@@ -239,4 +345,6 @@ export {
   deleteUser,
   getUserById,
   updateUser,
+  forgotPassword,
+  resetPassword,
 };

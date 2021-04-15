@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { register } from "../actions/userActions";
-import { USER_REGISTER_RESET } from "../constants/userConstants";
 
-const RegisterScreen = ({ location, history }) => {
-  const [name, setName] = useState("");
+const ForgotPasswordScreen = ({ location, history }) => {
   const [email, setEmail] = useState("");
   const [accessKey, setAccessKey] = useState("");
   const [tooltipStatus, setTooltipStatus] = useState(0);
@@ -27,34 +24,29 @@ const RegisterScreen = ({ location, history }) => {
   useEffect(() => {
     if (userInfo) {
       history.push(redirect);
-    } else {
-      if (message || error) {
-        const resetMessageTimer = setTimeout(() => {
-          dispatch({ type: USER_REGISTER_RESET });
-          history.push("/");
-        }, 3000);
-        return () => clearTimeout(resetMessageTimer);
-      } else {
-        setName(name);
-        setEmail(email);
-        setAccessKey(accessKey);
-      }
     }
-  }, [
-    history,
-    userInfo,
-    redirect,
-    name,
-    email,
-    accessKey,
-    message,
-    error,
-    dispatch,
-  ]);
+    // }, [history, formErrors, userInfo, redirect]);
+  }, [history, userInfo, redirect]);
+
+  useEffect(() => {
+    if (message) {
+      setEmail("");
+      setAccessKey("");
+
+      const resetMessageTimer = setTimeout(() => {
+        history.push("/");
+      }, 10000);
+
+      return () => clearTimeout(resetMessageTimer);
+    } else {
+      setEmail(email);
+      setAccessKey(accessKey);
+    }
+  }, [email, accessKey, message, error, dispatch, history]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(register(name, email, accessKey));
+    dispatch(register(email, accessKey));
   };
 
   return (
@@ -62,34 +54,21 @@ const RegisterScreen = ({ location, history }) => {
       <div className="mx-auto flex justify-center md:items-center relative">
         <form
           onSubmit={submitHandler}
-          className="w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-600 mb-12 sm:mb-0 my-10 sm:my-6 px-6"
+          className="w-full sm:w-4/6 lg:w-6/12 xl:w-8/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-6"
         >
           <div className="pt-16 px-2 flex flex-col items-center justify-center">
             <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight uppercase">
-              Create New Account
+              Reset your password
             </h3>
+            <p className="text-md pt-8 pb-4 text-center leading-snug tracking-tight">
+              Enter your email address & your access key, we will send you the
+              instructions for resetting your password.
+            </p>
             {message && <Message variant="info">{message.message}</Message>}
-            {error && <Message variant="danger">error + {error}</Message>}
+            {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
           </div>
           <div className="mt-12 mx-auto w-full xl:w-9/12 2xl:w-6/12 px-2 sm:px-6 uppercase">
-            <div className="flex flex-col mt-8">
-              <label
-                htmlFor="name"
-                className="text-xs font-semibold leading-tight"
-              >
-                Name
-              </label>
-              <input
-                name="name"
-                id="name"
-                type="text"
-                value={name}
-                autoComplete="off"
-                className="h-10 bg-gray-50 focus:bg-white px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 border-gray-300 border shadow"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
             <div className="flex flex-col mt-8">
               <label
                 htmlFor="email"
@@ -122,7 +101,7 @@ const RegisterScreen = ({ location, history }) => {
                   {tooltipStatus === 2 && (
                     <div
                       role="tooltip"
-                      className="z-20 transition duration-150 ease-in-out bottom-0 mb-8 right-0 shadow-lg pt-4 pr-2 pl-3 pb-5 bg-indigo-700 text-gray-600 rounded-bl-md rounded-t-md w-56 md:w-60 absolute"
+                      className="z-20 transition duration-150 ease-in-out bottom-0 mb-8 right-0 shadow-lg pt-4 pr-2 pl-3 pb-5 bg-white text-indigo-600 border-2 border-indigo-400 rounded-bl-md rounded-t-md w-56 md:w-60 absolute"
                     >
                       <svg
                         className="absolute bottom-0 -mb-2 right-2"
@@ -159,7 +138,7 @@ const RegisterScreen = ({ location, history }) => {
                           </g>
                         </g>
                       </svg>
-                      <p className="text-xs text-white leading-4 normal-case">
+                      <p className="text-xs text-indigo-600 leading-4 normal-case">
                         Contact admin to get the access key
                       </p>
                     </div>
@@ -203,17 +182,8 @@ const RegisterScreen = ({ location, history }) => {
               type="submit"
               className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
             >
-              Register
+              Send request
             </button>
-            <p className="mt-16 text-xs text-center">
-              Already Have An Account?
-              <Link
-                className="text-indigo-600 ml-3 font-semibold"
-                to={redirect ? `/?redirect=${redirect}` : "/"}
-              >
-                Login
-              </Link>
-            </p>
           </div>
         </form>
       </div>
@@ -221,4 +191,4 @@ const RegisterScreen = ({ location, history }) => {
   );
 };
 
-export default RegisterScreen;
+export default ForgotPasswordScreen;

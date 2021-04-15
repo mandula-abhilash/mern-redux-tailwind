@@ -20,22 +20,27 @@ const ProfileScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const { user } = userDetails;
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const { success } = userUpdateProfile;
+  const { loading, success, error } = userUpdateProfile;
 
   useEffect(() => {
+    setMessage(null);
     if (!user || !user.name || success) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(getUserDetails("profile"));
-      setPassword("");
-      setConfirmPassword("");
+      if (success) {
+        setMessage(null);
+        setEditProfile(false);
+        setPassword("");
+        setConfirmPassword("");
+      }
     } else {
       setName(user.name);
       setEmail(user.email);
     }
-  }, [dispatch, history, success, user]);
+  }, [dispatch, history, success, user, error]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -95,13 +100,9 @@ const ProfileScreen = ({ history }) => {
                   <Message variant="info">Profile updated succesfully</Message>
                 )}
                 {error && <Message variant="danger">{error}</Message>}
-                {/* {loading && <Loader />} */}
+                {loading && <Loader />}
               </div>
-              {loading ? (
-                <div className="flex mx-auto h-20 mt-24 mb-48 justify-center">
-                  <Loader />
-                </div>
-              ) : (
+              {
                 <>
                   <div className="mt-12 w-full px-2 sm:px-6">
                     <div className="flex flex-col mt-5">
@@ -200,7 +201,7 @@ const ProfileScreen = ({ history }) => {
                     )}
                   </div>
                 </>
-              )}
+              }
             </form>
           </div>
         </div>

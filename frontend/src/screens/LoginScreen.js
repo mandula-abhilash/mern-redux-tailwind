@@ -27,7 +27,6 @@ const LoginScreen = ({ location, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
-    // console.log(email + " : " + password);
   };
 
   return (
@@ -37,9 +36,6 @@ const LoginScreen = ({ location, history }) => {
           onSubmit={submitHandler}
           className="w-full sm:w-4/6 md:w-3/6 lg:w-4/12 xl:w-3/12 text-gray-800 mb-12 sm:mb-0 my-10 sm:my-6 px-2 sm:px-0"
         >
-          {/* <div className="px-2 flex flex-col items-center justify-center mt-8 sm:mt-0">
-            <h2 className="text-4xl leading-tight pt-8">The North</h2>
-          </div> */}
           <div className="pt-16 px-2 flex flex-col items-center justify-center uppercase">
             <h3 className="text-xl sm:text-2xl xl:text-xl font-bold leading-tight">
               Login
@@ -81,8 +77,23 @@ const LoginScreen = ({ location, history }) => {
               />
             </div>
           </div>
-
-          <div className="px-2 py-6 mb-16 sm:mb-56 md:mb-16 sm:px-6">
+          <div className="pt-10 w-full flex justify-between px-2 sm:px-6">
+            <div className="flex items-center">
+              <input
+                id="rememberme"
+                name="rememberme"
+                className="w-3 h-3 mr-2"
+                type="checkbox"
+              />
+              <label htmlFor="rememberme" className="text-xs">
+                Remember Me
+              </label>
+            </div>
+            <Link className="text-xs text-indigo-600" to="/forgot-password">
+              Forgot Password?
+            </Link>
+          </div>
+          <div className="px-2 mb-16 sm:mb-56 md:mb-16 sm:px-6">
             <button
               type="submit"
               className="focus:outline-none w-full bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-8 py-3 text-sm mt-6"
@@ -94,7 +105,6 @@ const LoginScreen = ({ location, history }) => {
               <Link
                 className="text-indigo-600 ml-3 font-semibold"
                 to={redirect ? `/register?redirect=${redirect}` : "/register"}
-                // to={"/register"}
               >
                 Register
               </Link>

@@ -37,8 +37,6 @@ const ActivateScreen = ({ location, history, match }) => {
       if (tokenReceived) {
         try {
           let { name, email } = jwt.decode(tokenReceived);
-          console.log(name + " : " + email + " : " + tokenReceived);
-
           setToken(tokenReceived);
           setName(name);
           setEmail(email);
@@ -57,7 +55,7 @@ const ActivateScreen = ({ location, history, match }) => {
       setPassword(password);
       setConfirmPassword(confirmPassword);
     }
-  }, [name, email, password, confirmPassword, message, error, userRegister]);
+  }, [password, confirmPassword, message]);
 
   const submitHandler = (e) => {
     e.preventDefault();

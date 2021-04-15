@@ -12,4 +12,14 @@ const generateAccountActivationToken = ({ name, email }) => {
   });
 };
 
-export { generateToken, generateAccountActivationToken };
+const generateResetPasswordToken = ({ name, email, _id }) => {
+  return jwt.sign({ name, email, _id }, process.env.JWT_RESET_PASSWORD, {
+    expiresIn: "10m",
+  });
+};
+
+export {
+  generateToken,
+  generateAccountActivationToken,
+  generateResetPasswordToken,
+};
